@@ -1,0 +1,166 @@
+{
+  "created": "2026-11-12T10:19:14.618Z",
+  "info": [
+    {
+      "id": "original",
+      "state": "decision-top",
+      "file": "original-decision-top.png",
+      "status": "DECISION",
+      "mode": "top",
+      "bytes": 56752
+    },
+    {
+      "id": "original",
+      "state": "decision-side",
+      "file": "original-decision-side.png",
+      "status": "DECISION",
+      "mode": "side",
+      "bytes": 37683
+    },
+    {
+      "id": "original",
+      "state": "decision-eye",
+      "file": "original-decision-eye.png",
+      "status": "DECISION",
+      "mode": "eye",
+      "bytes": 46569
+    },
+    {
+      "id": "original",
+      "state": "lookdown",
+      "file": "original-lookdown.png",
+      "status": "DECISION",
+      "mode": "eye",
+      "bytes": 52559
+    },
+    {
+      "id": "original",
+      "state": "result-A",
+      "file": "original-result-A.png",
+      "status": "RESULT",
+      "mode": "top",
+      "bytes": 56644
+    },
+    {
+      "id": "original",
+      "state": "result-B",
+      "file": "original-result-B.png",
+      "status": "RESULT",
+      "mode": "top",
+      "bytes": 56560
+    },
+    {
+      "id": "original",
+      "state": "result-C",
+      "file": "original-result-C.png",
+      "status": "RESULT",
+      "mode": "top",
+      "bytes": 57813
+    },
+    {
+      "id": "v1",
+      "state": "decision-top",
+      "file": "v1-decision-top.png",
+      "status": "DECISION",
+      "mode": "top",
+      "bytes": 59456
+    },
+    {
+      "id": "v1",
+      "state": "decision-side",
+      "file": "v1-decision-side.png",
+      "status": "DECISION",
+      "mode": "side",
+      "bytes": 52566
+    },
+    {
+      "id": "v1",
+      "state": "decision-eye",
+      "file": "v1-decision-eye.png",
+      "status": "DECISION",
+      "mode": "eye",
+      "bytes": 26624
+    },
+    {
+      "id": "v1",
+      "state": "result-A",
+      "file": "v1-result-A.png",
+      "status": "RESULT",
+      "mode": "top",
+      "bytes": 59522
+    },
+    {
+      "id": "v1",
+      "state": "result-B",
+      "file": "v1-result-B.png",
+      "status": "RESULT",
+      "mode": "top",
+      "bytes": 59357
+    },
+    {
+      "id": "v1",
+      "state": "result-C",
+      "file": "v1-result-C.png",
+      "status": "RESULT",
+      "mode": "top",
+      "bytes": 63531
+    },
+    {
+      "id": "v2",
+      "state": "decision-top",
+      "file": "v2-decision-top.png",
+      "status": "DECISION",
+      "mode": "top",
+      "bytes": 64639
+    },
+    {
+      "id": "v2",
+      "state": "decision-side",
+      "file": "v2-decision-side.png",
+      "status": "DECISION",
+      "mode": "side",
+      "bytes": 59314
+    },
+    {
+      "id": "v2",
+      "state": "decision-eye",
+      "file": "v2-decision-eye.png",
+      "status": "DECISION",
+      "mode": "eye",
+      "bytes": 55039
+    },
+    {
+      "id": "v2",
+      "state": "lookdown",
+      "file": "v2-lookdown.png",
+      "status": "DECISION",
+      "mode": "eye",
+      "bytes": 66568
+    },
+    {
+      "id": "v2",
+      "state": "result-A",
+      "file": "v2-result-A.png",
+      "status": "RESULT",
+      "mode": "top",
+      "bytes": 64546
+    },
+    {
+      "id": "v2",
+      "state": "result-B",
+      "file": "v2-result-B.png",
+      "status": "RESULT",
+      "mode": "top",
+      "bytes": 63990
+    },
+    {
+      "id": "v2",
+      "state": "result-C",
+      "file": "v2-result-C.png",
+      "status": "RESULT",
+      "mode": "top",
+      "bytes": 67789
+    }
+  ],
+  "errors": []
+}
