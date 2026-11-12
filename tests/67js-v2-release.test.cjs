@@ -20,6 +20,7 @@ test('V2 built engine, CSS and comparison routes resolve under the GitHub Pages 
  assert.match(bundle,/shadowRefreshes/);
  assert.match(bundle,/selfCardVisible/);
  assert.match(index,/name="robots" content="noindex,nofollow"/);
+ assert.match(get(css[1].replace('/3d-snow-safety-world/67js-v2/','')).toString(),/sitehead\{[^}]*flex-wrap:wrap[^}]*\}/,'zoom-200 mobile header wrap rule missing');
 });
 
 test('three-engine comparison has all rendered evidence, correct paths, and an honest missing V1 view',()=>{
