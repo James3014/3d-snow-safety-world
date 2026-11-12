@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "67js": "npm:@codepawlhq/67js@0.19.0"
+  },
+  "name": "snow-safety-67js-v2-scene01",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 8398 --strictPort",
+    "build": "vite build",
+    "test:acceptance": "node tests/v2-acceptance.cjs",
+    "test:e2e": "node tests/v2-e2e.cjs",
+    "test:capture": "node tests/capture-three-way.cjs",
+    "test:benchmark": "node tests/benchmark-three.cjs"
+  },
+  "devDependencies": {
+    "vite": "8.3.5",
+    "pngjs": "7.0.0",
+    "playwright-core": "1.58.2"
+  }
+}

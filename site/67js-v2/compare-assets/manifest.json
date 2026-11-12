@@ -1,0 +1,121 @@
+{
+  "date": "2026-11-12T10:22:11.125Z",
+  "cases": [
+    {
+      "name": "original",
+      "mode": "decision-top",
+      "bytes": 56752
+    },
+    {
+      "name": "original",
+      "mode": "decision-eye",
+      "bytes": 46569
+    },
+    {
+      "name": "original",
+      "mode": "decision-side",
+      "bytes": 37683
+    },
+    {
+      "name": "original",
+      "mode": "lookdown",
+      "bytes": 52594
+    },
+    {
+      "name": "original",
+      "mode": "result-A-top",
+      "bytes": 56644
+    },
+    {
+      "name": "original",
+      "mode": "result-B-top",
+      "bytes": 56560
+    },
+    {
+      "name": "original",
+      "mode": "result-C-top",
+      "bytes": 57813
+    },
+    {
+      "name": "original",
+      "mode": "result-C-eye",
+      "bytes": 55979
+    },
+    {
+      "name": "v1",
+      "mode": "decision-top",
+      "bytes": 59456
+    },
+    {
+      "name": "v1",
+      "mode": "decision-eye",
+      "bytes": 26624
+    },
+    {
+      "name": "v1",
+      "mode": "decision-side",
+      "bytes": 52566
+    },
+    {
+      "name": "v1",
+      "mode": "result-A-top",
+      "bytes": 59522
+    },
+    {
+      "name": "v1",
+      "mode": "result-B-top",
+      "bytes": 59357
+    },
+    {
+      "name": "v1",
+      "mode": "result-C-top",
+      "bytes": 63531
+    },
+    {
+      "name": "v1",
+      "mode": "result-C-eye",
+      "bytes": 41916
+    },
+    {
+      "name": "v2",
+      "mode": "decision-top",
+      "bytes": 64639
+    },
+    {
+      "name": "v2",
+      "mode": "decision-eye",
+      "bytes": 55039
+    },
+    {
+      "name": "v2",
+      "mode": "decision-side",
+      "bytes": 59314
+    },
+    {
+      "name": "v2",
+      "mode": "lookdown",
+      "bytes": 66568
+    },
+    {
+      "name": "v2",
+      "mode": "result-A-top",
+      "bytes": 64546
+    },
+    {
+      "name": "v2",
+      "mode": "result-B-top",
+      "bytes": 63990
+    },
+    {
+      "name": "v2",
+      "mode": "result-C-top",
+      "bytes": 67789
+    },
+    {
+      "name": "v2",
+      "mode": "result-C-eye",
+      "bytes": 64311
+    }
+  ],
+  "errors": []
+}

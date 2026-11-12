@@ -13,8 +13,8 @@ const context={window:{}};
 vm.runInNewContext(src('lessons-data.js'),context,{timeout:3000,filename:'lessons-data.js'});
 const lessons=context.window.SNOW_LESSONS;
 
-test('original eight static assets remain and only the 67js preview folder is added',()=>{
-  assert.deepEqual(files,['404.html','67js','index.html','lesson-play-speed.html','lessons-data.js','merge-entry-speed.html','robots.txt','safe-overtake-speed.html','scene-01-speed.html']);
+test('original static assets remain unchanged with 67js previews in isolated folders',()=>{
+  assert.deepEqual(files,['404.html','67js','67js-v2','index.html','lesson-play-speed.html','lessons-data.js','merge-entry-speed.html','robots.txt','safe-overtake-speed.html','scene-01-speed.html']);
 });
 test('seven scenario data stay bound to the verified M5 baseline',()=>{
   const sha=crypto.createHash('sha256').update(fs.readFileSync(path.join(site,'lessons-data.js'))).digest('hex');
