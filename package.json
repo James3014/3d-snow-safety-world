@@ -1,0 +1,9 @@
+{
+  "name": "3d-snow-safety-world",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bilingual, self-contained interactive snow-safety scenarios",
+  "scripts": {"test": "node --test tests/*.test.cjs"},
+  "engines": {"node": ">=20"},
+  "license": "MIT"
+}

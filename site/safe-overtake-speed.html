@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>3D Snow Safety World｜想超過前面的人，旁邊要留多少空間？</title>
+<style>
+:root { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:#23384a; background:#edf4fa; }
+* { box-sizing:border-box; }
+html,body { margin:0; min-width:300px; }
+body { background: radial-gradient(circle at 30% -20%,#fff 0%,#eaf3fb 51%,#e0edf6 100%); }
+.shell { max-width:1140px; margin:0 auto; padding:24px 24px 48px; }
+header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:25px; }
+.brand { display:flex; align-items:center; gap:12px; font-size:14px; letter-spacing:.07em; font-weight:750; color:#23425c; }
+.mark { width:36px;height:36px;border-radius:12px; background:#183d5c; color:white; display:flex;align-items:center;justify-content:center; box-shadow:0 7px 18px #244b6f30; }
+.header-actions { display:flex; gap:7px;align-items:center; }
+.tag { font-size:10px;letter-spacing:.13em;border:1px solid #bcd3e2;border-radius:25px;padding:8px 10px;color:#42637b;background:#ffffffab; }
+button { border:0; font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.lang { background:white;border:1px solid #cadeea;border-radius:10px;color:#24506b;padding:8px 10px;font-size:12px; }
+.hero { display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin-bottom:21px; }
+.eyebrow { font-size:11px;letter-spacing:.16em;color:#4d86a2;font-weight:750;text-transform:uppercase;margin:0 0 8px; }
+h1 { margin:0 0 8px; font-size:clamp(27px,4vw,39px); font-weight:780; letter-spacing:-.035em; color:#193852; }
+.sub { margin:0;line-height:1.55;color:#668295;max-width:700px;font-size:14px; }
+.small-note { max-width:190px;text-align:right;color:#8a9eaa;font-size:11px;line-height:1.5; }
+.stage { border:1px solid #d2e2ed; border-radius:25px; background:#fbfdff; box-shadow:0 18px 55px #2e5c7914; overflow:hidden; }
+.viewport { position:relative; height: min(62vh,600px); min-height:410px; background:linear-gradient(#e6f2fc 0%,#e8f4fa 48%,#f9fcfd 100%); overflow:hidden; }
+#gl { width:100%;height:100%;display:block;outline:none;touch-action:none;cursor:grab; }
+#gl:active { cursor:grabbing; }
+.topbar { position:absolute;left:22px;right:22px;top:20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;pointer-events:none; }
+.view-switch { display:flex;gap:4px;padding:5px;background:#ffffffdc;box-shadow:0 4px 24px #123e5b13;border:1px solid #dbe8ef;border-radius:14px;pointer-events:auto; }
+.view-switch button { padding:11px 15px;min-height:40px;border-radius:10px;background:transparent;color:#6d899a;font-size:12px;font-weight:650;white-space:nowrap; }
+.view-switch button[aria-pressed="true"] { background:#24506a;color:#fff;box-shadow:0 4px 11px #24506a33; }
+.reset { pointer-events:auto;min-height:42px; padding:0 13px;border:1px solid #dbe8ef;border-radius:12px;color:#55778e;background:#ffffffde;font-size:12px;font-weight:650; }
+.top-info { position:absolute;bottom:18px;left:22px;right:22px;display:flex;justify-content:space-between;align-items:end;gap:12px;pointer-events:none; }
+.info-pill { display:flex;align-items:center;gap:8px;background:#ffffffde;border:1px solid #dbe8ee;padding:10px 12px;border-radius:12px;color:#67889b;font-size:11px;box-shadow:0 4px 18px #123e5b0a; }
+.dot { width:8px;height:8px;background:#4bbaab;border-radius:100%;box-shadow:0 0 0 4px #4bbaab22; }
+.compass { min-width:110px;text-align:right;font-size:11px;color:#66889b;text-shadow:0 1px #fff; }
+.proof-bar { padding:18px 22px;display:grid;grid-template-columns:1.05fr 1.05fr 1.2fr;gap:12px;background:#fff; }
+.proof-item { padding:14px 15px;border:1px solid #e5edf3;border-radius:14px;background:#f8fbfd;min-height:94px; }
+.proof-key {display:flex;gap:6px;align-items:center;font-size:10px;color:#7b96a6;letter-spacing:.06em;margin-bottom:9px;text-transform:uppercase;font-weight:700;}
+.proof-key svg {flex:none;} .proof-value { font-size:15px;color:#24455b;font-weight:750;line-height:1.32;}
+.proof-mini {font-size:11px;line-height:1.5;color:#7893a3;margin-top:5px;}
+.legend {display:flex;justify-content:space-between;gap:14px;padding:5px 0 0;font-size:11px;color:#7a97a9;flex-wrap:wrap;}
+.legend span {display:flex;align-items:center;gap:7px;} .legend i {display:inline-block;width:9px;height:9px;border-radius:50%;}
+.legend .l1 {background:#2582b4;} .legend .l2 {background:#df9142;}
+footer {display:flex;flex-wrap:wrap;justify-content:space-between;gap:9px;margin-top:15px;color:#829bab;font-size:11px;line-height:1.5;}
+footer strong { color:#5a798c; }
+.fatal {display:none;position:absolute;inset:80px 20px;align-items:center;justify-content:center;text-align:center;flex-direction:column;gap:12px;color:#8f4350;background:#fff9f6e8;border-radius:12px;}
+@media(max-width:700px) {.shell{padding:14px 12px 32px;}header{margin-bottom:19px}.mark{width:32px;height:32px}.brand{font-size:12px;gap:9px;letter-spacing:0}.tag{display:none}.hero{align-items:initial;}.small-note{display:none}.stage{border-radius:18px}.viewport{height:min(61vh,560px);min-height:360px}.topbar{left:10px;right:10px;top:10px;gap:5px}.view-switch{gap:2px;padding:3px}.view-switch button{padding:11px 9px;min-height:41px;font-size:11px}.reset{padding:0 10px;min-height:39px}.top-info{left:10px;right:10px;bottom:12px}.compass{max-width:120px}.proof-bar{padding:12px;grid-template-columns:1fr 1fr;gap:8px}.proof-item{padding:12px;min-height:93px}.proof-item:last-child{grid-column:span 2;min-height:64px}.proof-value{font-size:13px}.proof-mini{font-size:10px}.legend{font-size:10px;}footer{margin-top:11px}}
+@media(prefers-reduced-motion:reduce) {*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Stage 03 authored learning experience */
+.stage{position:relative}
+#introCard,#scenarioPanel{background:#fff;border-top:1px solid #deebf2;padding:19px 24px;}
+#introCard{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+#introTitle{font-size:19px;font-weight:800;color:#173c55;margin:0 0 6px}
+#introCopy{font-size:13px;color:#658297;line-height:1.52;margin:0;max-width:620px}
+.primary{background:#1e506b;color:white;padding:14px 20px;min-height:47px;border-radius:13px;font-weight:750;white-space:nowrap;box-shadow:0 6px 16px #21526b29}
+.secondary{background:#edf5f9;color:#22536e;padding:11px 14px;min-height:44px;border-radius:10px;font-weight:700}
+#scenarioPanel{display:none;gap:12px;align-items:center;}
+#phaseName{font-size:12px;color:#6b8ca0;font-weight:700;letter-spacing:.035em}
+#sceneTitle{font-size:20px;font-weight:800;line-height:1.35;margin-top:4px;color:#1d3f56;}
+#progressTrack{height:4px;background:#e1ebf2;border-radius:10px;overflow:hidden;margin-top:10px}
+#progressFill{height:100%;background:#4a92b1;width:0;transition:width .1s linear}
+#scenarioButtons{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-left:auto;align-items:center}
+/* Playback rate is a user choice, not an on-slope speed certification. */
+.speed-control{display:inline-flex;align-items:center;gap:4px;flex-wrap:nowrap;border-radius:11px;background:#eef5f9;border:1px solid #d4e3ea;padding:5px 6px;max-width:100%;}
+.speed-label{font-size:12px;font-weight:800;color:#3b7189;white-space:nowrap;padding:0 5px;}
+#scenarioButtons .speed-control button{flex:0 0 auto;min-width:0;min-height:34px;padding:6px 9px;border-radius:8px;border:1px solid transparent;color:#335b70;background:transparent;font-size:12px;font-weight:850;box-shadow:none;white-space:nowrap;}
+#scenarioButtons .speed-control button[aria-pressed="true"]{background:#245b79;border-color:#245b79;color:#fff;}
+#scenarioButtons .speed-control button:focus-visible{outline:3px solid #36a8ca;outline-offset:2px;}
+@media(max-width:700px){#scenarioButtons .speed-control{margin-right:auto;}#scenarioButtons .speed-control button{flex:0 0 auto;min-width:0;padding:7px 8px;}}
+#decisionChoices{display:none;grid-template-columns:repeat(3,1fr);gap:9px;width:100%;margin-top:12px;}
+#decisionChoices button{border:1px solid #c8dee9;background:#f4fafc;border-radius:14px;min-height:80px;text-align:left;padding:12px;color:#244a60;font-size:13px;line-height:1.45;}
+#decisionChoices button:hover,#decisionChoices button:focus-visible{border-color:#3f8da8;background:#edf8fb;outline:2px solid transparent;}
+#decisionChoices button{font-weight:660;} #lessonText{font-weight:560;}
+#introCopy{max-width:640px;}
+.choiceLetter{display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;background:#286380;color:white;border-radius:7px;font-weight:800;margin-right:6px;font-size:12px;}
+#lessonText{font-size:13px;line-height:1.55;color:#527286;margin-top:8px;display:none;max-width:790px}
+#sceneMeta{font-size:11px;color:#8ba1ae;margin-top:9px}
+.hotspot{position:absolute;z-index:4;transform:translate(-50%,-50%);border:2px solid #fff;background:#256482e9;color:#fff;box-shadow:0 6px 22px #12415866;border-radius:999px;padding:10px 14px;min-height:44px;font-size:12px;font-weight:800;white-space:nowrap}
+#playbackBadge{position:absolute;top:79px;left:22px;background:#1f4e6de0;color:#fff;padding:8px 11px;font-size:11px;font-weight:750;border-radius:9px;pointer-events:none;letter-spacing:.03em;}
+#videoOverlay{display:none;position:absolute;inset:0;pointer-events:none;z-index:8;align-items:center;justify-content:space-between;flex-direction:column;padding:90px 55px 130px;text-align:center;background:linear-gradient(180deg,#143a5280 0%,transparent 34%,transparent 55%,#0c2f4770 100%)}
+#videoOverlay>div:nth-child(2){position:absolute;top:17%;left:35px;right:35px;}
+#videoEyebrow{font-size:27px;font-weight:800;letter-spacing:.12em;color:#e4f9ff;text-shadow:0 2px 13px #002b4695}
+#videoTitle{font-size:54px;font-weight:850;color:white;line-height:1.25;text-shadow:0 4px 28px #0f354fcd;white-space:pre-line}
+#videoSub{font-size:31px;font-weight:750;color:#f2fafb;margin-top:24px;line-height:1.5;text-shadow:0 3px 20px #153c55ed;white-space:pre-line}
+#videoFooter{font-size:24px;font-weight:800;color:#e9f9ff;letter-spacing:.065em;text-shadow:0 2px 15px #123b54bd}
+body.cinema{background:#d8e8f3;overflow:hidden}
+body.cinema .shell{max-width:none;width:100vw;height:100dvh;padding:0;margin:0}
+body.cinema header,body.cinema .hero,body.cinema .proof-bar,body.cinema footer,body.cinema .legend,body.cinema #introCard,body.cinema #scenarioPanel{display:none!important}
+body.cinema .stage{border:0;border-radius:0;box-shadow:none;height:100dvh}
+body.cinema .viewport{height:100dvh;min-height:0}
+body.cinema .topbar,body.cinema .top-info,body.cinema .overlay-label,body.cinema #playbackBadge{display:none!important}
+body.cinema #videoOverlay{display:flex}
+body.cinema #hotspotBtn{display:none!important}
+body.cinema #videoEyebrow{font-size:3.33vw}
+body.cinema #videoTitle{font-size:7vw}
+body.cinema #videoSub{font-size:4.44vw}
+body.cinema #videoFooter{font-size:3vw}
+body.cinema #videoOverlay>div:nth-child(2){left:6.5vw;right:6.5vw}
+body.cinema.cinema-c #videoOverlay>div:nth-child(2){top:61%}
+body:not(.showproof) .proof-bar{display:none}
+body:not(.showproof) .legend{display:none}
+body:not(.showproof) footer{display:none}
+@media(max-width:700px){#introCard{padding:14px;display:block;}#introCard .primary{margin-top:12px;width:100%;}#scenarioPanel{padding:13px 12px;}#scenarioButtons{margin-left:0;width:100%;justify-content:stretch;}#scenarioButtons button{flex:1;min-width:98px}#decisionChoices{grid-template-columns:1fr;gap:7px}#decisionChoices button{min-height:48px;padding:9px 11px}#sceneTitle{font-size:17px}#playbackBadge{top:65px;left:12px}.viewport{min-height:340px;height:48vh}#videoOverlay{padding:60px 22px 92px}#videoTitle{font-size:38px}#videoSub{font-size:24px}#videoEyebrow{font-size:18px}#videoFooter{font-size:16px}}
+#lookDown[hidden]{display:none!important}
+.self-card{position:absolute;right:12px;bottom:48px;width:140px;height:182px;display:none;z-index:3;pointer-events:none;border:1px solid #b6d5e0;background:linear-gradient(160deg,#f7fcff,#e7f4f9);box-shadow:0 10px 25px #173b532b;border-radius:14px;overflow:hidden;text-align:center;color:#28485c}
+.self-card-title{position:absolute;top:8px;left:6px;right:45px;font-size:10px;font-weight:800;z-index:1;white-space:nowrap}
+#selfCardButton{position:absolute;top:4px;right:4px;z-index:5;border-radius:7px;background:#e0f1f7;color:#28516d;min-height:24px;padding:0 5px;font-size:10px;font-weight:750;pointer-events:auto;cursor:pointer;border:1px solid #b9d7e5}
+.self-card.expanded{width:228px;height:294px;right:10px;bottom:44px;box-shadow:0 13px 40px #143c5466}
+@media(max-width:700px){.self-card.expanded{width:224px;height:291px;right:8px;bottom:43px}}
+.self-card canvas{display:block;width:100%;height:100%}
+.self-card-foot{position:absolute;bottom:4px;left:3px;right:3px;font-size:9px;color:#49758b;white-space:nowrap}
+@media(max-width:700px){.self-card{right:8px;bottom:43px;width:122px;height:168px;border-radius:12px}.self-card-title{font-size:10px}.self-card-foot{font-size:8px}}
+body.cinema .self-card{display:none!important}#lookDown{font-weight:700;background:#e7f4f8;border:1px solid #bfdae5;white-space:nowrap}
+@media(max-width:700px){#lookDown{font-size:11px;padding:0 8px}}
+
+#gl:focus-visible,button:focus-visible{outline:3px solid #eba347!important;outline-offset:2px!important}
+@media(max-width:700px){
+ body.large-type .topbar{top:7px;left:7px;right:7px;display:flex;align-items:flex-start;gap:4px}
+ body.large-type .view-switch{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;box-sizing:border-box;gap:2px}
+ body.large-type .view-switch button{min-width:0!important;white-space:normal!important;overflow-wrap:anywhere!important;line-height:1.24!important;padding:5px!important;min-height:0!important}
+ body.large-type #reset,body.large-type #lookDown{min-height:0!important;align-self:flex-end!important;max-width:100%;white-space:normal}
+ body.large-type #playbackBadge,body.large-type .top-info{display:none!important}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+ <div class="brand"><div class="mark" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18 9 7l3 5 3-3 7 9M7 18l2-5 3 4" stroke-width="1.65"/><path d="M3 21h18" stroke-width="1.5"/></svg></div><span>3D SNOW SAFETY WORLD</span></div>
+ <div class="header-actions"><div class="tag" id="versionTag">先來玩一回合</div><button id="langBtn" class="lang" type="button" aria-label="Switch language">EN</button></div>
+</header>
+<section class="hero"><div><p class="eyebrow" id="eyebrow">互動雪山 · 一個小挑戰</p><h1 id="headline"></h1><p class="sub" id="subtitle"></p></div><div class="small-note">ONE HILL<br>THREE CHOICES<br>TRY AGAIN</div></section>
+<div class="stage">
+ <div class="viewport" id="viewport">
+  <canvas id="gl" role="img" aria-label="可旋轉的 3D 雪山，及最多三位穿戴頭盔的單板滑手"></canvas>
+  <div class="topbar"><div class="view-switch" role="group" aria-label="Camera views"><button type="button" id="btn-top" aria-pressed="true"></button><button type="button" id="btn-eye" aria-pressed="false"></button><button type="button" id="btn-side" aria-pressed="false"></button></div><button class="reset" type="button" id="lookDown" hidden></button><button class="reset" type="button" id="reset"></button></div>
+  <div class="self-card" id="selfCard" aria-label="你的全身單板站姿"><div class="self-card-title" id="selfCardTitle">你的單板站姿</div><button type="button" id="selfCardButton" aria-label="放大人物">放大</button><canvas id="selfCanvas" aria-label="完整單板滑手的側身站姿、手腳和固定器"></canvas><div class="self-card-foot" id="selfCardFoot">雙腳固定在同一片板上</div></div>
+ <div class="top-info"><div class="info-pill"><i class="dot"></i><span id="gesture"></span></div><div class="compass" id="angle"></div></div>
+  <div class="fatal" id="fatal"><strong>WebGL unavailable</strong><span>3D validation requires a WebGL-capable browser.</span></div>
+  <button id="hotspotBtn" class="hotspot" type="button" aria-label="開啟坡頂盲區事件">坡頂盲區 ◎</button>
+  <div id="playbackBadge" role="status">試試看</div>
+  <div id="videoOverlay"><div id="videoEyebrow"></div><div><div id="videoTitle"></div><div id="videoSub"></div></div><div id="videoFooter">3D SNOW SAFETY WORLD</div></div>
+ </div>
+ <div id="introCard"><div><h2 id="introTitle"></h2><p id="introCopy"></p></div><button class="primary" id="startBtn" type="button"></button></div>
+ <div id="scenarioPanel" aria-live="polite"><div style="flex:1;min-width:190px"><div id="phaseName"></div><div id="sceneTitle"></div><div id="lessonText"></div><div id="progressTrack"><div id="progressFill"></div></div><div id="sceneMeta"></div></div><div id="scenarioButtons"><button class="secondary" id="pauseBtn" type="button"></button><button class="primary" id="resumeBtn" type="button"></button><button class="secondary" id="retryBtn" type="button"></button><button class="secondary" id="replayBtn" type="button"></button><button class="secondary" id="homeBtn" type="button"></button><div class="speed-control" id="speedControls" role="group" aria-label="播放速度"><span class="speed-label" id="speedLabel">播放速度</span><button type="button" data-rate="1" aria-pressed="true">1×</button><button type="button" data-rate="0.5" aria-pressed="false">0.5×</button><button type="button" data-rate="0.25" aria-pressed="false">0.25×</button></div></div><div id="decisionChoices"><button data-choice="A" type="button"><span class="choiceLetter">A</span><span class="choiceLabel"></span></button><button data-choice="B" type="button"><span class="choiceLetter">B</span><span class="choiceLabel"></span></button><button data-choice="C" type="button"><span class="choiceLetter">C</span><span class="choiceLabel"></span></button></div></div>
+ <div class="proof-bar">
+   <div class="proof-item"><div class="proof-key">SCENE / 3D SNOW</div><div class="proof-value" id="terrainStatus"></div><div class="proof-mini" id="terrainDetail"></div></div>
+   <div class="proof-item"><div class="proof-key">PATH / OTHER RIDER</div><div class="proof-value" id="occlusionStatus"></div><div class="proof-mini" id="occlusionDetail"></div></div>
+   <div class="proof-item"><div class="proof-key">DEVICE / INTERACTION</div><div class="proof-value" id="deviceStatus"></div><div class="proof-mini" id="deviceDetail"></div></div>
+ </div>
+</div>
+<div class="legend"><span><i class="l1"></i><span id="legend1"></span></span><span><i class="l2"></i><span id="legend2"></span></span><span id="note"></span></div>
+<footer><div><strong>LOCAL STORY PROTOTYPE</strong> / not a published lesson</div><div id="footerInfo">No account, no remote assets, no media export.</div></footer>
+</div>
+<script>
+'use strict';
+(function(){
+const LESSON={"id":"safe-overtake","version":"prototype-01","discipline":"snowboard","learningGoal":"When overtaking from behind, leave enough lateral/longitudinal clearance for an unpredictable turn, and do not cut back in immediately.","height_js":"return 10.0-.355*z-.015*x*x+.16*Math.sin(.19*z)+.10*Math.cos(.38*x);","camera":{"topYaw":-0.61,"centerX":0,"centerZ":-0.3,"distance":32,"sideDistance":17},"hotspot":[0,-2.6],"hotspotLabel":{"zh":"◎ 前方有人較慢","en":"◎ Someone ahead"},"lanes":[{"width":9,"color":[0.86,0.94,0.957],"points":[[0,-16],[0,-12],[0,-8],[0,-4],[0,0],[0,4],[0,8],[0,12],[0,16]]},{"width":0.12,"color":[0.6,0.81,0.87],"points":[[-4.55,-16],[-4.55,-12],[-4.55,-8],[-4.55,-4],[-4.55,0],[-4.55,4],[-4.55,8],[-4.55,12],[-4.55,16]]},{"width":0.12,"color":[0.6,0.81,0.87],"points":[[4.55,-16],[4.55,-12],[4.55,-8],[4.55,-4],[4.55,0],[4.55,4],[4.55,8],[4.55,12],[4.55,16]]}],"copy":{"zh":{"introTitle":"前面的人滑得比較慢，要超過嗎？","introCopy":"你從後方追近一位橘色單板滑手。他正在自己的路線上轉彎，可能隨時改變方向。想超過他，你會怎麼做？","intro":"你正在追近前方的人！","decision":"要超過他了，你會怎麼滑？","choice":["從他身邊貼得很近，直接超過","先慢下來，留夠空間再從旁邊通過","超過以後，馬上切到他正前方"],"lesson":{"A":"你貼著橘色滑手超過。當他照自己的路線轉彎，你們差點擠在同一個位置，他只好改道。超越時要替前面的人留下轉彎的空間。","B":"你先控制速度，確認旁邊有足夠空間，才從左側拉開距離通過。這一段兩人的路線不會擠在一起；但超越時仍要觀察對方動作。","C":"你從旁邊超過了，卻太早切回橘色滑手前方，逼得他減速。超越並不代表已經留下安全距離；切回去之前也要確認空間。"},"stage":"你：從後方追近的藍色單板 ／ 橘色單板：較慢的前方滑手","start":"開始這個小挑戰","outcome":"看看接下來發生什麼事…","result":"原來是這樣！轉個角度看看","paused":"暫停一下，換個角度看","pause":"暫停一下","resume":"繼續看","retry":"換一種做法","replay":"再看一次","home":"回到雪山","hint":"這是預先編排的安全情境，並非真實速度或滑行距離的保證。","phase":{"INTRO_PAGE":"準備好了嗎？","INTRO_PLAY":"故事開始","INTRO_PAUSED":"停一下看看","DECISION":"輪到你選擇","OUTCOME_PLAY":"你的選擇會怎樣？","OUTCOME_PAUSED":"停一下看看","RESULT":"發生了什麼事？"}},"en":{"introTitle":"Someone ahead is going slower. Should you pass?","introCopy":"You are catching up to an orange snowboarder. They are making turns and might change direction. How will you pass?","intro":"You are catching up!","decision":"You are about to pass. What will you do?","choice":["Squeeze closely past their side","Slow down first; pass only with plenty of room","Pass, then immediately cut across in front"],"lesson":{"A":"You pass very close just as the orange rider turns, and your paths nearly overlap. They have to steer away. Leave enough room for the person ahead to turn, even unexpectedly.","B":"You control your speed, check the open space, and pass on the left with room. The two paths stay separated, though you should keep watching as you pass.","C":"You get past, then cut back too soon and make the orange rider slow down. Being ahead for a moment does not mean you have left enough clearance. Check the space before moving across."},"stage":"You: blue snowboard coming from behind / Orange: slower rider ahead","start":"Start this challenge","outcome":"See what happens next…","result":"Now you know! Explore from another angle","paused":"Paused — look around","pause":"Pause","resume":"Continue","retry":"Try a different choice","replay":"Watch again","home":"Back to mountain","hint":"This is an authored safety story, not a measured speed or stopping distance.","phase":{"INTRO_PAGE":"Ready?","INTRO_PLAY":"Here we go","INTRO_PAUSED":"Take another look","DECISION":"Your turn","OUTCOME_PLAY":"What happens next?","OUTCOME_PAUSED":"Take another look","RESULT":"What happened?"}}},"translations":{"zh":{"eyebrow":"互動雪山 · 第 3 題","tag":"情境 03 / 後方超車","headline":"想超過前面的人，旁邊要留多少空間？","subtitle":"前方有人正慢慢轉彎，你從後面追近他。試試三種超越方式，看看路線會不會擠在一起。","terrain":"這是一條可以超越的雪道","terrainDetail":"淡藍色區域呈現共用雪道，不代表固定超車道。","trafficStatus":"前方滑手可以自然轉向","trafficDetail":"橘色滑手不需要為你的超車預先讓路。","note":"左右兩側都可能超越，關鍵是空間足夠","top":"從上面看","eye":"你的視角","side":"從側面看","reset":"重來","lookDown":"看腳下","gesture":"單指轉一轉 · 雙指放大看","device":"可以動手探索","deviceDetail":"手機真機效能仍待測試。","one":"你（藍色單板）","two":"另一位（橘色單板）","eyeInfo":"從你的眼睛看出去","topInfo":"從上面看全景","sideInfo":"從側面看動作","rayDetail":"","units":""},"en":{"eyebrow":"Explore the mountain · Lesson 03","tag":"SCENE 03 / OVERTAKING","headline":"How much room should you leave to pass?","subtitle":"Someone is turning slowly ahead and you are catching up. Compare three ways to pass, then look at the paths.","terrain":"This is a shared snow run","terrainDetail":"The pale-blue area is the run, not a designated passing lane.","trafficStatus":"The rider ahead may turn normally","trafficDetail":"The orange snowboarder does not have to move aside for your pass.","note":"Passing left or right can work; leaving room is the point","top":"From above","eye":"Your view","side":"Side view","reset":"Reset","lookDown":"Look at board","gesture":"Drag to look around · pinch to zoom","device":"Ready to explore","deviceDetail":"Performance needs checking on real phones.","one":"You (blue snowboard)","two":"Other rider (orange snowboard)","eyeInfo":"Your eyes on the slope","topInfo":"The whole scene from above","sideInfo":"Watch the movement from the side","rayDetail":"","units":""}},"tracks":{"intro":{"you":[[0,-1.6,-13.0,0,0],[1,-1.6,-7.3,0.02,-0.02]],"other":[[0,0.35,-5.4,0.04,0],[1,0.3,-1.35,0,0]]},"outcomes":{"A":{"you":[[0,-1.6,-7.3,0.02,0],[0.28,-1.15,-3.4,0.07,-0.08],[0.49,-0.38,0.15,0.07,-0.18],[0.67,-0.22,4.45,0,-0.18],[1,-0.32,11.9,0,0]],"other":[[0,0.3,-1.35,0,0],[0.42,0.35,3.2,0.05,0],[0.6,0.647,5.27,0.1,0.04],[0.76,1.85,7.1,0.42,0.12],[1,1.9,10.0,0,0]]},"B":{"you":[[0,-1.6,-7.3,0.02,0],[0.32,-1.8,-5.7,-0.12,0.1],[0.56,-3.85,-1.7,-0.22,-0.09],[0.76,-3.7,4.7,0.0,-0.04],[1,-3.55,12.2,0,0]],"other":[[0,0.3,-1.35,0,0],[0.42,0.35,3.2,0.05,0],[0.48,0.68,3.7,0.15,0.04],[1,0.4,10.5,-0.06,0]]},"C":{"you":[[0,-1.6,-7.3,0.02,0],[0.35,-2.45,-2.0,-0.19,-0.04],[0.64,-3.15,5.2,-0.08,0],[0.8,-3.15,10.0,-0.08,0.04],[0.88,-1.6,11.5,0.42,0.1],[0.97,0.2,13.0,0.66,-0.09],[1,0.36,13.5,0.05,0]],"other":[[0,0.3,-1.35,0,0],[0.42,0.35,3.2,0.05,0],[0.48,0.68,3.7,0.15,0.04],[0.79,0.45,8.45,-0.08,0.02],[1,0.4,9.0,0,-0.08]]}}}};
+const translations=LESSON.translations;
+let lang='zh', mode='top', webglReady=false, fallbackReady=false, raf=0;
+const $=id=>document.getElementById(id);
+const canvas=$('gl'), viewport=$('viewport');
+// Accessible alternative to dragging and explicit WebGL context-loss recovery.
+canvas.setAttribute('tabindex','0');
+canvas.setAttribute('aria-keyshortcuts','ArrowLeft ArrowRight ArrowUp ArrowDown');
+canvas.addEventListener('keydown',e=>{
+ if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)||isAutoPhase())return;
+ e.preventDefault();
+ if(mode==='eye'){eyeCam.yaw+=(e.key==='ArrowLeft'?.09:e.key==='ArrowRight'?-.09:0);eyeCam.pitch=Math.max(-1.35,Math.min(.65,eyeCam.pitch+(e.key==='ArrowUp'?.07:e.key==='ArrowDown'?-.07:0)));}
+ else{cam.yaw+=(e.key==='ArrowLeft'?.09:e.key==='ArrowRight'?-.09:0);cam.pitch=Math.max(.08,Math.min(1.35,cam.pitch+(e.key==='ArrowUp'?.07:e.key==='ArrowDown'?-.07:0)));}
+ requestFrame();
+});
+canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();webglReady=false;const note=$('fatal');note.setAttribute('role','alert');note.style.display='flex';note.textContent=lang==='zh'?'3D 畫面暫時中斷。請重新整理頁面；也可以閱讀下方情境與選項文字。':'The 3D display was interrupted. Refresh this page; you can still read the scenario and choices below.';});
+
+const gl=canvas.getContext('webgl',{antialias:true,alpha:true,depth:true,preserveDrawingBuffer:true});
+const canvas2d=!gl?canvas.getContext('2d',{alpha:true}):null;
+const N1={x:LESSON.tracks.intro.you[0][1],z:LESSON.tracks.intro.you[0][2]},
+      N2={x:LESSON.tracks.intro.other[0][1],z:LESSON.tracks.intro.other[0][2]},
+      N3={x:40,z:-21,yaw:0,lean:0};
+function H(x,z){return 10.0-.355*z-.015*x*x+.16*Math.sin(.19*z)+.10*Math.cos(.38*x);}
+N1.y=H(N1.x,N1.z);N2.y=H(N2.x,N2.z);N3.y=H(N3.x,N3.z);
+const eye=[N1.x,N1.y+1.58,N1.z],targetSkier=[N2.x,N2.y+1.0,N2.z];
+function rayTerrain(start,end,samples=600){let maxIntrusion=-1e9,worstT=0,blocked=false;for(let i=1;i<samples;i++){const t=i/samples,x=start[0]+t*(end[0]-start[0]),z=start[2]+t*(end[2]-start[2]),y=start[1]+t*(end[1]-start[1]),p=H(x,z)-y;if(p>maxIntrusion){maxIntrusion=p;worstT=t;}if(p>0.01)blocked=true;}return {blocked,maxIntrusion,worstT,samples};}
+const occlusion=rayTerrain(eye,targetSkier);
+const highTarget=[targetSkier[0],targetSkier[1]+9,targetSkier[2]];
+const highClear=!rayTerrain(eye,highTarget).blocked;
+const V={sub:(a,b)=>a.map((x,i)=>x-b[i]),dot:(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0),cross:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],norm:a=>{const n=Math.hypot(...a)||1;return a.map(x=>x/n)}};
+function perspective(fov,aspect,near,far){const f=1/Math.tan(fov/2);return [f/aspect,0,0,0,0,f,0,0,0,0,(far+near)/(near-far),-1,0,0,2*far*near/(near-far),0];}
+function lookAt(from,to){const z=V.norm(V.sub(from,to)),x=V.norm(V.cross([0,1,0],z)),y=V.cross(z,x);return [x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-V.dot(x,from),-V.dot(y,from),-V.dot(z,from),1];}
+function mul(a,b){const out=new Array(16).fill(0);for(let c=0;c<4;c++)for(let r=0;r<4;r++)for(let k=0;k<4;k++)out[c*4+r]+=a[k*4+r]*b[c*4+k];return out;}
+function transform(m,x,y,z){const a=[x,y,z,1],o=[0,0,0,0];for(let r=0;r<4;r++)for(let c=0;c<4;c++)o[r]+=m[c*4+r]*a[c];return o;}
+const cam={yaw:LESSON.camera.topYaw,pitch:0.76,distance:LESSON.camera.distance,target:[LESSON.camera.centerX,9.1,LESSON.camera.centerZ],eyePos:null};
+// First-person looking is independent of the mountain's orbit camera.
+// Its position follows the rider, but dragging only changes head direction.
+const eyeCam={yaw:0,pitch:0,fov:68};
+const EYE_HEIGHT=2.18, EYE_LOCAL_X=.026, EYE_LOCAL_Z=.58;
+function resetEyeView(){const f=frameFor(phase,branch,progress);const from=[f.npc1.x,H(f.npc1.x,f.npc1.z)+EYE_HEIGHT,f.npc1.z],to=[f.npc2.x,H(f.npc2.x,f.npc2.z)+1.0,f.npc2.z];const d=V.sub(to,from);eyeCam.yaw=Math.atan2(d[0],d[2])-f.npc1.yaw;eyeCam.pitch=Math.atan2(d[1],Math.hypot(d[0],d[2]));eyeCam.fov=68;}
+function eyeLookTarget(){const cp=Math.cos(eyeCam.pitch),heading=eyeCam.yaw+frameFor(phase,branch,progress).npc1.yaw;return [eye[0]+Math.sin(heading)*cp,eye[1]+Math.sin(eyeCam.pitch),eye[2]+Math.cos(heading)*cp];}
+function cameraPosition(){if(mode==='eye')return eye;const cp=Math.cos(cam.pitch);return [cam.target[0]+cam.distance*Math.sin(cam.yaw)*cp,cam.target[1]+cam.distance*Math.sin(cam.pitch),cam.target[2]+cam.distance*Math.cos(cam.yaw)*cp];}
+function getCameraMVP(aspect){const pos=cameraPosition();return {mvp:mul(perspective((mode==='eye'?eyeCam.fov:54)*Math.PI/180,aspect,0.06,160),lookAt(pos,mode==='eye'?eyeLookTarget():cam.target)),position:pos};}
+let terrainVertices=[],terrainIndices=[],contourCoords=[],actorVertices=[],actorIndices=[];
+function addVertex(dest,x,y,z,nx,ny,nz,r,g,b){dest.push(x,y,z,nx,ny,nz,r,g,b);}
+const NX=96,NZ=132,X0=-12,X1=12,Z0=-17,Z1=17;
+const hgrid=[];
+for(let k=0;k<=NZ;k++){const z=Z0+(Z1-Z0)*k/NZ;for(let j=0;j<=NX;j++){const x=X0+(X1-X0)*j/NX,h=H(x,z);hgrid.push(h);const dx=(H(x+.03,z)-H(x-.03,z))/.06,dz=(H(x,z+.03)-H(x,z-.03))/.06,n=V.norm([-dx,1,-dz]);const mix=Math.max(0,Math.min(1,(h-4)/14));addVertex(terrainVertices,x,h,z,...n,0.87+mix*.08,0.93+mix*.045,.975+mix*.015);}}
+for(let k=0;k<NZ;k++)for(let j=0;j<NX;j++){const a=k*(NX+1)+j,b=a+1,c=a+NX+1,d=c+1;terrainIndices.push(a,c,b,b,c,d);}
+// Terrain-following route-edge guides. Thin lines avoid software-3D z-sort artefacts
+// of nearly coplanar translucent ribbon faces. They are visual guides, not track barriers.
+const routeCoords=[];
+function routeGuides(points,width){
+ for(let k=0;k<points.length-1;k++){
+   const [xa,za]=points[k],[xb,zb]=points[k+1],dist=Math.hypot(xb-xa,zb-za)||1;
+   const px=-(zb-za)/dist,pz=(xb-xa)/dist,steps=Math.ceil(dist/.28);
+   for(let j=0;j<steps;j++)for(const offset of (width<.5?[0]:[-width/2,width/2])){
+     const t=j/steps,u=(j+1)/steps;
+     const x1=xa+(xb-xa)*t+px*offset,z1=za+(zb-za)*t+pz*offset;
+     const x2=xa+(xb-xa)*u+px*offset,z2=za+(zb-za)*u+pz*offset;
+     routeCoords.push(x1,H(x1,z1)+.15,z1,x2,H(x2,z2)+.15,z2);
+   }
+ }
+}
+for(const lane of LESSON.lanes)routeGuides(lane.points,lane.width);
+
+// Marching-squares contour lines at true horizontal elevation isolines.
+const edges=[[0,1],[1,2],[2,3],[3,0]];
+for(let level=4;level<=17;level+=.8){for(let k=0;k<NZ;k++)for(let j=0;j<NX;j++){
+ const x=X0+(X1-X0)*j/NX, z=Z0+(Z1-Z0)*k/NZ,dx=(X1-X0)/NX,dz=(Z1-Z0)/NZ;
+ const corners=[[x,z,hgrid[k*(NX+1)+j]],[x+dx,z,hgrid[k*(NX+1)+j+1]],[x+dx,z+dz,hgrid[(k+1)*(NX+1)+j+1]],[x,z+dz,hgrid[(k+1)*(NX+1)+j]]];
+ const p=[];for(const [a,b] of edges){const c1=corners[a],c2=corners[b];if((c1[2]<level)!==(c2[2]<level)){const t=(level-c1[2])/(c2[2]-c1[2]);p.push([c1[0]+t*(c2[0]-c1[0]),level+.065,c1[1]+t*(c2[1]-c1[1])]);}}
+ if(p.length===2)contourCoords.push(...p[0],...p[1]);else if(p.length===4)contourCoords.push(...p[0],...p[1],...p[2],...p[3]);
+}}
+function boxMesh(cx,cy,cz,sx,sy,sz,color){const pts=[[cx-sx/2,cy-sy/2,cz-sz/2],[cx+sx/2,cy-sy/2,cz-sz/2],[cx+sx/2,cy+sy/2,cz-sz/2],[cx-sx/2,cy+sy/2,cz-sz/2],[cx-sx/2,cy-sy/2,cz+sz/2],[cx+sx/2,cy-sy/2,cz+sz/2],[cx+sx/2,cy+sy/2,cz+sz/2],[cx-sx/2,cy+sy/2,cz+sz/2]];const faces=[[0,1,2,3,[0,0,-1]],[5,4,7,6,[0,0,1]],[4,0,3,7,[-1,0,0]],[1,5,6,2,[1,0,0]],[3,2,6,7,[0,1,0]],[4,5,1,0,[0,-1,0]]];for(const [a,b,c,d,n] of faces){const base=actorVertices.length/9;for(const ix of [a,b,c,d])addVertex(actorVertices,...pts[ix],...n,...color);actorIndices.push(base,base+1,base+2,base,base+2,base+3);}}
+// Friendly low-poly, big-helmet snowboarders. Both riders use one snowboard (never skis).
+// The body mesh is authored here (not a sprite or 2D label) so the same 3D motion remains testable.
+function ellipsoidMesh(cx,cy,cz,rx,ry,rz,color,rings=6,sides=10){
+ const start=actorVertices.length/9;
+ for(let i=0;i<=rings;i++){
+  const phi=Math.PI*i/rings,sp=Math.sin(phi),cp=Math.cos(phi);
+  for(let j=0;j<=sides;j++){
+   const th=2*Math.PI*j/sides,ct=Math.cos(th),st=Math.sin(th);
+   const nx=sp*ct,ny=cp,nz=sp*st;
+   const normal=V.norm([nx/rx,ny/ry,nz/rz]);
+   addVertex(actorVertices,cx+rx*nx,cy+ry*ny,cz+rz*nz,...normal,...color);
+  }
+ }
+ for(let i=0;i<rings;i++)for(let j=0;j<sides;j++){
+  const a=start+i*(sides+1)+j,b=a+1,c=a+sides+1,d=c+1;
+  actorIndices.push(a,c,b,b,c,d);
+ }
+}
+// Stance reference: the shoulders/hips span the LENGTH of the board (local Z),
+// the chest faces the TOE edge (local +X), and the HEAD looks toward the nose (+Z).
+// Both boots are attached in binding positions, front/rear along Z, NOT ski-parallel.
+let povBodyVertexCount=0,povBodyIndexCount=0;
+function addChibiSnowboarder(npc,jacket,accent){
+ const start=actorVertices.length,b=npc.y;
+ const board=[.09,.68,.76],edge=[.06,.15,.24],boots=[.12,.19,.27],pants=[.20,.27,.38],helmet=[.12,.20,.30],visor=[.08,.18,.27];
+ // A single shaped deck with TWO bindings across its WIDTH. No pair of skis.
+ boxMesh(npc.x,b+.090,npc.z,.57,.095,2.55,board);
+ for(const z of [-1.255,1.255])ellipsoidMesh(npc.x,b+.102,npc.z+z,.285,.052,.205,board,5,10);
+ // Dark outline strips along the two long edges for unmistakable snowboard geometry.
+ for(const x of [-.266,.266]) boxMesh(npc.x+x,b+.136,npc.z,.027,.022,2.28,edge);
+ // Front of board indicated by a small contrasting inset near the nose, not a fake ski tip.
+ ellipsoidMesh(npc.x,b+.149,npc.z+1.08,.19,.018,.115,accent,3,8);
+ const bootsAt=[-.43,.43];
+ for(const z of bootsAt){
+  // Bindings span the width of the board; boots point approximately across it.
+  boxMesh(npc.x,b+.197,npc.z+z,.54,.105,.29,edge);
+  ellipsoidMesh(npc.x+.105,b+.319,npc.z+z,.31,.171,.192,boots,5,9);
+  boxMesh(npc.x+.158,b+.403,npc.z+z,.23,.055,.30,[.28,.43,.51]); // ankle straps
+  // Flexed knees: boots / lower leg / knees / upper legs, not straight mannequin legs.
+  ellipsoidMesh(npc.x+.055,b+.610,npc.z+z,.185,.285,.177,pants,5,9);
+  ellipsoidMesh(npc.x+.184,b+.775,npc.z+z*.89,.215,.20,.196,pants,5,9);
+  ellipsoidMesh(npc.x+.08,b+.980,npc.z+z*.67,.205,.239,.215,pants,5,9);
+ }
+ if(start===0){povBodyVertexCount=actorVertices.length/9;povBodyIndexCount=actorIndices.length;}
+ // Side-on pelvis and coat: long axis Z parallel to the board; chest points toe-side (+X).
+ ellipsoidMesh(npc.x+.025,b+1.037,npc.z,.315,.23,.467,pants,6,11);
+ ellipsoidMesh(npc.x+.018,b+1.401,npc.z,.350,.460,.507,jacket,7,12);
+ // Chest zip/patch faces +X, visually establishing the torso direction.
+ ellipsoidMesh(npc.x+.343,b+1.406,npc.z,.022,.245,.086,accent,5,8);
+ // Shoulder and arm centers are at the NOSE/TAIL (+/- Z), not left/right X.
+ for(const d of [-1,1]){
+  ellipsoidMesh(npc.x+.018,b+1.460,npc.z+d*.445,.251,.205,.225,jacket,5,9);
+  ellipsoidMesh(npc.x+.085,b+1.150,npc.z+d*.563,.158,.304,.167,jacket,6,9);
+  ellipsoidMesh(npc.x+.106,b+.900,npc.z+d*.611,.150,.161,.155,boots,5,9);
+ }
+ // The inset shows the whole head/torso/arms; the main eye canvas renders only boots and deck.
+ // Short upright neck, helmet and visor looking toward the leading nose (+Z).
+ ellipsoidMesh(npc.x+.015,b+1.830,npc.z+.065,.22,.15,.23,accent,5,9);
+ ellipsoidMesh(npc.x+.025,b+2.110,npc.z+.084,.365,.355,.366,[.95,.82,.69],7,12);
+ ellipsoidMesh(npc.x+.025,b+2.301,npc.z+.080,.408,.257,.399,helmet,6,12);
+ ellipsoidMesh(npc.x+.026,b+2.134,npc.z+.429,.325,.176,.096,visor,5,10);
+ ellipsoidMesh(npc.x+.026,b+2.168,npc.z+.510,.205,.043,.030,[.42,.75,.86],4,9);
+ // Optional head still points toward travel, while the jacket and pelvis remain sideways.
+ const yaw=npc.yaw||0,lean=npc.lean||0,cy=Math.cos(yaw),sy=Math.sin(yaw),cl=Math.cos(lean),sl=Math.sin(lean);
+ for(let i=start;i<actorVertices.length;i+=9){
+  const x=actorVertices[i]-npc.x,y=actorVertices[i+1]-b,z=actorVertices[i+2]-npc.z;
+  const tx=x*cl-y*sl,ty=x*sl+y*cl;
+  actorVertices[i]=npc.x+tx*cy+z*sy;actorVertices[i+1]=b+ty;actorVertices[i+2]=npc.z-tx*sy+z*cy;
+  const nx=actorVertices[i+3],ny=actorVertices[i+4],nz=actorVertices[i+5],rn=nx*cl-ny*sl,ry=nx*sl+ny*cl;
+  actorVertices[i+3]=rn*cy+nz*sy;actorVertices[i+4]=ry;actorVertices[i+5]=-rn*sy+nz*cy;
+ }
+}
+function stanceEvidence(){
+ const shoulders=[[.018,-.445],[.018,.445]],bindings=[[.105,-.43],[.105,.43]];
+ return {
+  shouldersAlongBoard:Math.abs(shoulders[1][1]-shoulders[0][1])>Math.abs(shoulders[1][0]-shoulders[0][0])+.50,
+  feetForeAftOnOneBoard:Math.abs(bindings[1][1]-bindings[0][1])>.7,
+  hipsAndShouldersSideOn:true,boardCountPerRider:1,bindingsPerBoard:2,
+  boardAxis:'local +Z (nose)',chestFaces:'local +X (toe edge)',headLooks:'local +Z (travel)',
+  note:'Authoring anchors; visually inspect screenshots and actual motion independently.'
+ };
+}
+addChibiSnowboarder(N1,[.12,.48,.68],[.35,.83,.79]);
+addChibiSnowboarder(N2,[.90,.45,.29],[.98,.75,.36]);
+const riderFloatCount=actorVertices.length/2, riderIndexCount=actorIndices.length/2;
+function shader(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
+function program(vs,fs){const p=gl.createProgram();gl.attachShader(p,shader(gl.VERTEX_SHADER,vs));gl.attachShader(p,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(p));return p;}
+const meshVS='attribute vec3 aP;attribute vec3 aN;attribute vec3 aC;uniform mat4 uMVP;varying vec3 vC;varying float vLight;void main(){gl_Position=uMVP*vec4(aP,1.0);vec3 n=normalize(aN);vLight=0.77+0.25*max(dot(n,normalize(vec3(-0.5,0.85,0.3))),0.0);vC=aC;}';
+const meshFS='precision mediump float;varying vec3 vC;varying float vLight;void main(){gl_FragColor=vec4(min(vC*vLight,vec3(1.0)),1.0);}';
+const lineVS='attribute vec3 aP;uniform mat4 uMVP;void main(){gl_Position=uMVP*vec4(aP,1.0);}';
+const lineFS='precision mediump float;uniform vec4 uColor;void main(){gl_FragColor=uColor;}';
+let meshP,lineP,meshGeo,actorGeo,actorEyeGeo,actorN2Geo,actorN3Geo,lineGeo,routeGeo;
+function bufferMesh(vertices,indices){const v=gl.createBuffer(),i=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,v);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.STATIC_DRAW);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,i);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(indices),gl.STATIC_DRAW);return {v,i,count:indices.length};}
+function drawMesh(g,mvp){gl.useProgram(meshP);gl.uniformMatrix4fv(gl.getUniformLocation(meshP,'uMVP'),false,new Float32Array(mvp));gl.bindBuffer(gl.ARRAY_BUFFER,g.v);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,g.i);for(const [name,offset] of [['aP',0],['aN',3],['aC',6]]){const loc=gl.getAttribLocation(meshP,name);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,3,gl.FLOAT,false,36,offset*4);}gl.drawElements(gl.TRIANGLES,g.count,gl.UNSIGNED_SHORT,0);}
+function drawLines(g,mvp,color){gl.useProgram(lineP);gl.uniformMatrix4fv(gl.getUniformLocation(lineP,'uMVP'),false,new Float32Array(mvp));gl.uniform4fv(gl.getUniformLocation(lineP,'uColor'),new Float32Array(color||[.46,.69,.80,.54]));gl.bindBuffer(gl.ARRAY_BUFFER,g.v);const loc=gl.getAttribLocation(lineP,'aP');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,3,gl.FLOAT,false,0,0);gl.drawArrays(gl.LINES,0,g.count);}
+function setView(v){mode=v;if(v==='top'){cam.yaw=LESSON.camera.topYaw;cam.pitch=.79;cam.distance=LESSON.camera.distance;cam.target=[LESSON.camera.centerX,9.1,LESSON.camera.centerZ];}if(v==='side'){const f=frameFor(phase,branch,progress);cam.yaw=Math.PI/2;cam.pitch=.20;cam.distance=LESSON.camera.sideDistance;cam.target=[(f.npc1.x+f.npc2.x)/2,f.npc1.y+1.4,(f.npc1.z+f.npc2.z)/2];}if(v==='eye'){resetEyeView();}for(const id of ['top','eye','side'])$('btn-'+id).setAttribute('aria-pressed',String(v===id));$('lookDown').hidden=(v!=='eye');requestFrame();}
+function resize(){const rect=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);const w=Math.max(1,Math.round(rect.width*dpr)),h=Math.max(1,Math.round(rect.height*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}if(gl)gl.viewport(0,0,w,h);return {w,h};}
+// Software preview is a separate fallback: it is NOT a WebGL verification result.
+const previewIndices=[];
+for(let k=0;k<NZ;k+=2)for(let j=0;j<NX;j+=2){const a=k*(NX+1)+j,b=a+2,c=a+2*(NX+1),d=c+2;previewIndices.push(a,c,b,b,c,d);}
+function paintSoftware(mvp,w,h){
+ const ctx=canvas2d;ctx.clearRect(0,0,w,h);
+ function projected(vertices){const arr=[];for(let i=0;i<vertices.length;i+=9){const v=transform(mvp,vertices[i],vertices[i+1],vertices[i+2]);if(v[3]>.06){const z=v[2]/v[3];arr.push({x:(v[0]/v[3]*.5+.5)*w,y:(.5-v[1]/v[3]*.5)*h,z,idx:i});}else arr.push(null);}return arr;}
+ const terrainP=projected(terrainVertices),actorP=projected(actorVertices),drawList=[];
+ function ingest(indices,vertices,proj){for(let i=0;i<indices.length;i+=3){const a=proj[indices[i]],b=proj[indices[i+1]],c=proj[indices[i+2]];if(!a||!b||!c)continue;if((a.x<0&&b.x<0&&c.x<0)||(a.x>w&&b.x>w&&c.x>w)||(a.y<0&&b.y<0&&c.y<0)||(a.y>h&&b.y>h&&c.y>h))continue;
+  const id=indices[i]*9;const r=vertices[id+6],g=vertices[id+7],bb=vertices[id+8];const nx=vertices[id+3],ny=vertices[id+4],nz=vertices[id+5];const lit=Math.min(1,Math.max(.64,.83+.14*(ny-.48*nx+.12*nz)));const color='rgb('+Math.round(Math.min(1,r*lit)*255)+','+Math.round(Math.min(1,g*lit)*255)+','+Math.round(Math.min(1,bb*lit)*255)+')';drawList.push({a,b,c,z:(a.z+b.z+c.z)/3,color});}}
+ ingest(previewIndices,terrainVertices,terrainP);if(mode==='eye')ingest(actorIndices.slice(0,povBodyIndexCount),actorVertices,actorP);ingest(mode==='eye'?actorIndices.slice(riderIndexCount):actorIndices,actorVertices,actorP);
+ drawList.sort((a,b)=>b.z-a.z);
+ for(const t of drawList){ctx.beginPath();ctx.moveTo(t.a.x,t.a.y);ctx.lineTo(t.b.x,t.b.y);ctx.lineTo(t.c.x,t.c.y);ctx.closePath();ctx.fillStyle=t.color;ctx.fill();}
+ // Optional contour guides are visual references, not occlusion evidence.
+ if(mode!=='eye'){ctx.beginPath();for(let i=0;i<contourCoords.length;i+=6){const a=transform(mvp,...contourCoords.slice(i,i+3)),b=transform(mvp,...contourCoords.slice(i+3,i+6));if(a[3]<=.06||b[3]<=.06)continue;ctx.moveTo((a[0]/a[3]*.5+.5)*w,(.5-a[1]/a[3]*.5)*h);ctx.lineTo((b[0]/b[3]*.5+.5)*w,(.5-b[1]/b[3]*.5)*h);}ctx.strokeStyle='rgba(79,139,170,.25)';ctx.lineWidth=1;ctx.stroke();ctx.beginPath();for(let i=0;i<routeCoords.length;i+=6){const a=transform(mvp,...routeCoords.slice(i,i+3)),b=transform(mvp,...routeCoords.slice(i+3,i+6));if(a[3]<=.06||b[3]<=.06)continue;ctx.moveTo((a[0]/a[3]*.5+.5)*w,(.5-a[1]/a[3]*.5)*h);ctx.lineTo((b[0]/b[3]*.5+.5)*w,(.5-b[1]/b[3]*.5)*h);}ctx.strokeStyle='rgba(44,125,151,.56)';ctx.lineWidth=Math.max(1.25,w/390*1.5);ctx.stroke();}
+}
+function paintSelfCard(){
+ const card=$('selfCard');if(mode!=='eye'||document.body.classList.contains('cinema')){card.style.display='none';return;}
+ card.style.display='block';const t=lang==='zh';$('selfCardTitle').textContent=t?'你的單板站姿':'Your snowboard stance';$('selfCardButton').textContent=$('selfCard').classList.contains('expanded')?(t?'縮小':'Close'):(t?'放大':'Expand');$('selfCardFoot').textContent=t?'雙腳固定在同一片板上':'Both feet on one board';
+ const can=$('selfCanvas'),w=can.clientWidth||122,h=can.clientHeight||168,dpr=Math.min(window.devicePixelRatio||1,2);
+ const W=Math.round(w*dpr),HH=Math.round(h*dpr);if(can.width!==W||can.height!==HH){can.width=W;can.height=HH;}
+ const ctx=can.getContext('2d');ctx.clearRect(0,0,W,HH);
+ const n=N1,yaw=n.yaw||0,cs=Math.cos(yaw),ss=Math.sin(yaw);
+ // Look from the rider's toe edge and tail: shoulders, both boots and the SINGLE deck are legible.
+ const vx=3.4,vz=-4.4;const pos=[n.x+vx*cs+vz*ss,n.y+3.40,n.z-vx*ss+vz*cs],target=[n.x,n.y+1.23,n.z];
+ const m=mul(perspective(47*Math.PI/180,W/HH,.04,35),lookAt(pos,target));
+ const P=[];for(let i=0;i<riderFloatCount*9;i+=9){const v=transform(m,actorVertices[i],actorVertices[i+1],actorVertices[i+2]);P.push(v[3]>.04?{x:(v[0]/v[3]*.5+.5)*W,y:(.5-v[1]/v[3]*.5)*HH,z:v[2]/v[3]}:null);}
+ const tris=[];for(let i=0;i<riderIndexCount;i+=3){const a=P[actorIndices[i]],b=P[actorIndices[i+1]],c=P[actorIndices[i+2]];if(!a||!b||!c)continue;const k=actorIndices[i]*9;const light=Math.min(1,Math.max(.64,.83+.14*(actorVertices[k+4]-.48*actorVertices[k+3]+.12*actorVertices[k+5])));const color='rgb('+Math.round(Math.min(1,actorVertices[k+6]*light)*255)+','+Math.round(Math.min(1,actorVertices[k+7]*light)*255)+','+Math.round(Math.min(1,actorVertices[k+8]*light)*255)+')';tris.push({a,b,c,z:(a.z+b.z+c.z)/3,color});}
+ tris.sort((a,b)=>b.z-a.z);
+ for(const q of tris){ctx.beginPath();ctx.moveTo(q.a.x,q.a.y);ctx.lineTo(q.b.x,q.b.y);ctx.lineTo(q.c.x,q.c.y);ctx.closePath();ctx.fillStyle=q.color;ctx.fill();}
+}
+function render(){raf=0;animationTick();if(!webglReady&&!fallbackReady)return;rebuildActors();const {w,h}=resize();const {mvp}=getCameraMVP(w/h);
+ if(webglReady){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);drawMesh(meshGeo,mvp);drawLines(lineGeo,mvp);drawLines(routeGeo,mvp,[.33,.61,.71,.76]);gl.bindBuffer(gl.ARRAY_BUFFER,actorGeo.v);gl.bufferSubData(gl.ARRAY_BUFFER,0,new Float32Array(actorVertices.slice(0,riderFloatCount*2)));gl.bindBuffer(gl.ARRAY_BUFFER,actorN2Geo.v);gl.bufferSubData(gl.ARRAY_BUFFER,0,new Float32Array(actorVertices.slice(riderFloatCount,riderFloatCount*2)));drawMesh(mode==='eye'?actorN2Geo:actorGeo,mvp);if(mode==='eye'){gl.bindBuffer(gl.ARRAY_BUFFER,actorEyeGeo.v);gl.bufferSubData(gl.ARRAY_BUFFER,0,new Float32Array(actorVertices.slice(0,povBodyVertexCount*9)));drawMesh(actorEyeGeo,mvp);}
+  if(branch==='C'&&actorVertices.length>riderFloatCount*2){gl.bindBuffer(gl.ARRAY_BUFFER,actorN3Geo.v);gl.bufferSubData(gl.ARRAY_BUFFER,0,new Float32Array(actorVertices.slice(riderFloatCount*2,riderFloatCount*3)));drawMesh(actorN3Geo,mvp);}}
+ else paintSoftware(mvp,w,h);
+ paintSelfCard();const cssw=viewport.clientWidth,cssh=viewport.clientHeight;$('angle').textContent=translations[lang][mode+'Info'];positionHotspot(mvp,cssw,cssh);if(isAutoPhase()&&!frameFrozen)requestFrame();}
+function requestFrame(){if(!raf)raf=requestAnimationFrame(render);}
+const pointers=new Map();let pinchDistance=0;
+canvas.addEventListener('pointerdown',e=>{if(isAutoPhase())return;canvas.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===2){const p=[...pointers.values()];pinchDistance=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);}e.preventDefault();});
+canvas.addEventListener('pointermove',e=>{if(isAutoPhase()||!pointers.has(e.pointerId))return;const prev=pointers.get(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===1){const deltaX=e.clientX-prev.x,deltaY=e.clientY-prev.y;if(mode==='eye'){eyeCam.yaw-=deltaX*.007;eyeCam.pitch=Math.max(-1.25,Math.min(1.25,eyeCam.pitch-deltaY*.006));}else{cam.yaw-=deltaX*.007;cam.pitch=Math.max(.14,Math.min(1.51,cam.pitch+deltaY*.006));}}else if(pointers.size===2){const a=[...pointers.values()];const n=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);if(pinchDistance>0){if(mode==='eye'){eyeCam.fov=Math.max(38,Math.min(88,eyeCam.fov*pinchDistance/Math.max(n,1)));}else{cam.distance=Math.max(12,Math.min(80,cam.distance*pinchDistance/Math.max(n,1)));}}pinchDistance=n;}requestFrame();e.preventDefault();});
+function endPointer(e){pointers.delete(e.pointerId);pinchDistance=0;try{canvas.releasePointerCapture(e.pointerId);}catch(_){}}
+canvas.addEventListener('pointerup',endPointer);canvas.addEventListener('pointercancel',endPointer);
+canvas.addEventListener('wheel',e=>{e.preventDefault();if(isAutoPhase())return;if(mode==='eye'){eyeCam.fov=Math.max(38,Math.min(88,eyeCam.fov*(e.deltaY>0?1.09:.92)));}else{cam.distance=Math.max(12,Math.min(80,cam.distance*(e.deltaY>0?1.09:.92)));}requestFrame();},{passive:false});
+$('selfCardButton').onclick=()=>{const c=$('selfCard');c.classList.toggle('expanded');$('selfCardButton').textContent=c.classList.contains('expanded')?(lang==='zh'?'縮小':'Close'):(lang==='zh'?'放大':'Expand');requestFrame();};
+$('btn-top').onclick=()=>{if(!isAutoPhase())setView('top');};$('btn-eye').onclick=()=>{if(!isAutoPhase())setView('eye');};$('btn-side').onclick=()=>{if(!isAutoPhase())setView('side');};$('reset').onclick=()=>setView(mode);$('lookDown').onclick=()=>{if(mode==='eye'&&!isAutoPhase()){eyeCam.yaw=.30;eyeCam.pitch=-1.18;eyeCam.fov=75;requestFrame();}};
+function refreshLanguage(){const t=translations[lang];for(const [id,key] of [['headline','headline'],['subtitle','subtitle'],['btn-top','top'],['btn-eye','eye'],['btn-side','side'],['reset','reset'],['gesture','gesture'],['terrainStatus','terrain'],['terrainDetail','terrainDetail'],['deviceStatus','device'],['deviceDetail','deviceDetail'],['legend1','one'],['legend2','two'],['note','note'],['lookDown','lookDown']])$(id).textContent=t[key];$('occlusionStatus').textContent=t.trafficStatus;$('occlusionDetail').textContent=t.trafficDetail;if(fallbackReady){$('deviceStatus').textContent=lang==='zh'?'軟體 3D 預覽':'Software 3D preview';$('deviceDetail').textContent=lang==='zh'?'此瀏覽器沒有啟用 WebGL；尚未驗證 GPU 表現。':'WebGL unavailable on this browser; GPU rendering not verified.';}$('langBtn').textContent=lang==='zh'?'EN':'\u7e41\u4e2d';$('eyebrow').textContent=t.eyebrow;$('versionTag').textContent=t.tag;document.documentElement.lang=lang==='zh'?'zh-Hant':'en';requestFrame();}
+$('langBtn').onclick=()=>{lang=lang==='zh'?'en':'zh';refreshLanguage();};
+if(!gl){fallbackReady=!!canvas2d;if(!fallbackReady)$('fatal').style.display='flex';else requestFrame();}else{
+ try{
+  meshP=program(meshVS,meshFS);lineP=program(lineVS,lineFS);meshGeo=bufferMesh(terrainVertices,terrainIndices);actorGeo=bufferMesh(actorVertices,actorIndices);actorEyeGeo=bufferMesh(actorVertices.slice(0,povBodyVertexCount*9),actorIndices.slice(0,povBodyIndexCount));actorN2Geo=bufferMesh(actorVertices.slice(riderFloatCount),actorIndices.slice(riderIndexCount).map(v=>v-riderFloatCount/9));actorN3Geo=bufferMesh(actorVertices.slice(riderFloatCount),actorIndices.slice(riderIndexCount).map(v=>v-riderFloatCount/9));lineGeo={v:gl.createBuffer(),count:contourCoords.length/3};gl.bindBuffer(gl.ARRAY_BUFFER,lineGeo.v);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(contourCoords),gl.STATIC_DRAW);routeGeo={v:gl.createBuffer(),count:routeCoords.length/3};gl.bindBuffer(gl.ARRAY_BUFFER,routeGeo.v);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(routeCoords),gl.STATIC_DRAW);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.enable(gl.DEPTH_TEST);webglReady=true;setView('top');
+ }catch(e){$('fatal').style.display='flex';$('fatal').innerHTML='<strong>WebGL initialization failed</strong><span>'+String(e.message).replace(/</g,'&lt;')+'</span>';}
+}
+// === STAGE 03: authored timeline (all deterministic; no physics or network) ===
+const textMap=LESSON.copy;
+// Authored scene units have no measured metres-per-second calibration. 1x is the normal-viewing tempo.
+const introDuration=3.4,outcomeDuration=4.8;
+let playbackRate=1;
+let phase='INTRO_PAGE',branch=null,progress=0,runBase=0,frameFrozen=false,returning=false,returnAt=0,returnFrom=null,sceneTime=0;
+let cinemaLabel={eyebrow:'',title:'',sub:''};
+function smooth(q){return q*q*(3-2*q);}
+function clamp(q,a=0,b=1){return Math.max(a,Math.min(b,q));}
+function sampleTrack(keys,q){
+ q=clamp(q);if(q<=keys[0][0])return {x:keys[0][1],z:keys[0][2],yaw:keys[0][3],lean:keys[0][4]};
+ for(let i=1;i<keys.length;i++)if(q<=keys[i][0]){
+   const a=keys[i-1],b=keys[i],t=clamp((q-a[0])/(b[0]-a[0]||1)),s=t*t*(3-2*t);
+   return {x:a[1]+(b[1]-a[1])*s,z:a[2]+(b[2]-a[2])*t,yaw:a[3]+(b[3]-a[3])*s,lean:a[4]+(b[4]-a[4])*s};
+ }
+ const a=keys[keys.length-1];return {x:a[1],z:a[2],yaw:a[3],lean:a[4]};
+}
+function frameFor(ph,b,q){
+ const intro=LESSON.tracks.intro;
+ const isIntro=ph==='INTRO_PAGE'||ph==='INTRO_PLAY'||ph==='INTRO_PAUSED'||ph==='DECISION';
+ const f=isIntro?intro:(LESSON.tracks.outcomes[b]||LESSON.tracks.outcomes.A);
+ const time=(ph==='INTRO_PAGE'?0:ph==='DECISION'?1:q);
+ const n1=sampleTrack(f.you,time),n2=sampleTrack(f.other,time),n3={x:40,z:-21,yaw:0,lean:0};
+ n1.y=H(n1.x,n1.z);n2.y=H(n2.x,n2.z);n3.y=H(n3.x,n3.z);
+ return {npc1:n1,npc2:n2,npc3:n3};
+}
+function rebuildActors(){
+ const f=frameFor(phase,branch,progress);Object.assign(N1,f.npc1);Object.assign(N2,f.npc2);Object.assign(N3,f.npc3);
+ const c=Math.cos(N1.yaw||0),s=Math.sin(N1.yaw||0);
+ eye[0]=N1.x+EYE_LOCAL_X*c+EYE_LOCAL_Z*s;eye[1]=N1.y+EYE_HEIGHT;eye[2]=N1.z-EYE_LOCAL_X*s+EYE_LOCAL_Z*c;
+ targetSkier[0]=N2.x;targetSkier[1]=N2.y+1.0;targetSkier[2]=N2.z;
+ actorVertices.length=0;actorIndices.length=0;
+ addChibiSnowboarder(N1,[.12,.48,.68],[.35,.83,.79]);
+ addChibiSnowboarder(N2,[.90,.45,.29],[.98,.75,.36]);
+}
+function isAutoPhase(){return phase==='INTRO_PLAY'||phase==='OUTCOME_PLAY';}
+function duration(){return (phase.indexOf('INTRO')>=0?introDuration:outcomeDuration)/playbackRate;}
+function plannedCamera(ph,b,q){
+ const f=frameFor(ph,b,q),n=f.npc1;
+ if(ph==='INTRO_PLAY')return {yaw:LESSON.camera.topYaw-.15+q*.14,pitch:.78-q*.16,distance:LESSON.camera.distance-q*5,target:[LESSON.camera.centerX*.5+n.x*.5,n.y+.65,n.z+2.8]};
+ if(ph==='OUTCOME_PLAY')return {yaw:LESSON.camera.topYaw-.08+q*.23,pitch:.67+q*.07,distance:Math.max(18,Math.min(29,16+Math.hypot(n.x-f.npc2.x,n.z-f.npc2.z)*1.1)),target:[(n.x+f.npc2.x)/2,n.y+.8,(n.z+f.npc2.z)/2]};
+ return {yaw:LESSON.camera.topYaw,pitch:.79,distance:LESSON.camera.distance,target:[LESSON.camera.centerX,9.1,LESSON.camera.centerZ]};
+}
+function applyCamera(dst){cam.yaw=dst.yaw;cam.pitch=dst.pitch;cam.distance=dst.distance;cam.target=[...dst.target];}
+function followSelectedCamera(ph,b,q){if(mode==='top')applyCamera(plannedCamera(ph,b,q));else if(mode==='side'){const f=frameFor(ph,b,q),n=f.npc1;cam.yaw=Math.PI/2;cam.pitch=.22;cam.distance=LESSON.camera.sideDistance;cam.target=[(n.x+f.npc2.x)/2,n.y+1.5,(n.z+f.npc2.z)/2];}}
+function positionHotspot(mvp,w,h){
+ const el=$('hotspotBtn');if(phase!=='INTRO_PAGE'||(mode==='eye'&&$('selfCard').classList.contains('expanded'))){el.style.display='none';return;}
+ const x0=LESSON.hotspot[0],z0=LESSON.hotspot[1],p=transform(mvp,x0,H(x0,z0)+1.30,z0);
+ if(p[3]<=.01){el.style.display='none';return;}
+ const x=(p[0]/p[3]*.5+.5)*w,y=(.5-p[1]/p[3]*.5)*h;
+ const visible=x>=35&&x<=w-35&&y>=32&&y<=h-32;
+ el.style.display=visible?'block':'none';el.style.left=x+'px';el.style.top=y+'px';
+}
+function refreshControls(){const t=textMap[lang];const intro=phase==='INTRO_PAGE',play=isAutoPhase(),paused=phase==='INTRO_PAUSED'||phase==='OUTCOME_PAUSED',decision=phase==='DECISION',result=phase==='RESULT';
+ $('hotspotBtn').textContent=lang==='zh'?LESSON.hotspotLabel.zh:LESSON.hotspotLabel.en;$('introCard').style.display=intro?'':'none';$('scenarioPanel').style.display=intro?'none':'flex';$('scenarioPanel').style.flexWrap='wrap';$('introTitle').textContent=t.introTitle;$('introCopy').textContent=t.introCopy;$('startBtn').textContent=t.start;
+ $('phaseName').textContent=t.phase[phase];$('sceneTitle').textContent=decision?t.decision:play?(phase==='INTRO_PLAY'?t.intro:t.outcome):paused?t.paused:result?t.result:t.intro;
+ $('sceneMeta').textContent=t.stage;$('pauseBtn').textContent=t.pause;$('resumeBtn').textContent=t.resume;$('retryBtn').textContent=t.retry;$('replayBtn').textContent=t.replay;$('homeBtn').textContent=t.home;
+ $('pauseBtn').style.display=play?'inline-block':'none';$('resumeBtn').style.display=paused?'inline-block':'none';$('retryBtn').style.display=result?'inline-block':'none';$('replayBtn').style.display=result?'inline-block':'none';$('homeBtn').style.display=intro?'none':'inline-block';$('decisionChoices').style.display=decision?'grid':'none';
+ for(let i=0;i<3;i++)document.querySelector('[data-choice="'+('ABC'[i])+'"] .choiceLabel').textContent=t.choice[i];
+ $('lessonText').style.display=result?'block':'none';$('lessonText').textContent=result?t.lesson[branch]||'':'';
+ $('progressFill').style.width=(100*progress).toFixed(1)+'%';updateSpeedButtons();$('playbackBadge').textContent=play?t.phase[phase]:(intro?(lang==='zh'?'來探索雪山':'EXPLORE THE HILL'):t.phase[phase]);
+ document.body.classList.remove('cinema-c');$('videoEyebrow').textContent=cinemaLabel.eyebrow;$('videoTitle').textContent=cinemaLabel.title;$('videoSub').textContent=cinemaLabel.sub;
+ for(const v of ['top','eye','side'])$('btn-'+v).disabled=play;$('lookDown').disabled=play;
+}
+function updateSpeedButtons(){
+ $('speedLabel').textContent=lang==='zh'?'播放速度':'Playback';
+ $('speedControls').setAttribute('aria-label',lang==='zh'?'播放速度':'Playback speed');
+ for(const btn of document.querySelectorAll('#speedControls [data-rate]')){
+  const rate=Number(btn.dataset.rate);
+  btn.setAttribute('aria-pressed',String(playbackRate===rate));
+  const t=rate===1?(lang==='zh'?'正常播放':'Normal speed'):rate===.5?(lang==='zh'?'慢動作':'Slow motion'):(lang==='zh'?'更慢':'Extra slow');
+  btn.setAttribute('aria-label',t+' '+btn.textContent);
+  btn.title=t;
+ }
+}
+function setPlaybackRate(rate){
+ if(![1,.5,.25].includes(rate))return false;
+ if(rate===playbackRate)return true;
+ const now=performance.now();
+ const running=isAutoPhase()&&!frameFrozen&&!returning;
+ // Rebase from the exact current timeline position before changing duration.
+ if(running)progress=clamp((now-runBase)/(duration()*1000));
+ playbackRate=rate;
+ if(running)runBase=now-progress*duration()*1000;
+ updateSpeedButtons();
+ requestFrame();
+ return true;
+}
+function beginIntro(){phase='INTRO_PLAY';branch=null;progress=0;returning=false;frameFrozen=false;runBase=performance.now();followSelectedCamera('INTRO_PLAY',null,0);refreshControls();requestFrame();}
+function pause(){if(!isAutoPhase())return;phase=phase==='INTRO_PLAY'?'INTRO_PAUSED':'OUTCOME_PAUSED';frameFrozen=false;returning=false;refreshControls();requestFrame();}
+function resume(){if(phase!=='INTRO_PAUSED'&&phase!=='OUTCOME_PAUSED')return;phase=phase==='INTRO_PAUSED'?'INTRO_PLAY':'OUTCOME_PLAY';startReturn();refreshControls();requestFrame();}
+function startReturn(){if(mode!=='top'){returning=false;runBase=performance.now()-progress*duration()*1000;return;}returning=true;returnAt=performance.now();returnFrom={yaw:cam.yaw,pitch:cam.pitch,distance:cam.distance,target:[...cam.target]};}
+function select(b){if(phase!=='DECISION'||!'ABC'.includes(b))return false;branch=b;phase='OUTCOME_PLAY';progress=0;frameFrozen=false;startReturn();refreshControls();requestFrame();return true;}
+function retry(){phase='DECISION';branch=null;progress=1;frameFrozen=false;returning=false;cam.target=[LESSON.camera.centerX,9.0,LESSON.camera.centerZ];refreshControls();requestFrame();}
+function replay(){if(phase!=='RESULT')return;phase='OUTCOME_PLAY';progress=0;frameFrozen=false;startReturn();refreshControls();requestFrame();}
+function home(){phase='INTRO_PAGE';branch=null;progress=0;returning=false;frameFrozen=false;setView('top');refreshControls();requestFrame();}
+function animationTick(){if(frameFrozen||!isAutoPhase())return;const now=performance.now();
+ if(returning){const t=clamp((now-returnAt)/520),q=smooth(t),dest=plannedCamera(phase,branch,progress),src=returnFrom;
+  applyCamera({yaw:src.yaw+(dest.yaw-src.yaw)*q,pitch:src.pitch+(dest.pitch-src.pitch)*q,distance:src.distance+(dest.distance-src.distance)*q,target:src.target.map((v,i)=>v+(dest.target[i]-v)*q)});
+  if(t>=1){returning=false;runBase=now-progress*duration()*1000;}return;
+ }
+ progress=clamp((now-runBase)/(duration()*1000));followSelectedCamera(phase,branch,progress);
+ if(progress>=1){const endIntro=phase==='INTRO_PLAY';phase=endIntro?'DECISION':'RESULT';branch=endIntro?null:branch;progress=1;refreshControls();}
+ else {$('progressFill').style.width=(progress*100).toFixed(1)+'%';}
+}
+for(const b of document.querySelectorAll('#speedControls [data-rate]'))b.onclick=()=>setPlaybackRate(Number(b.dataset.rate));
+$('hotspotBtn').onclick=beginIntro;$('startBtn').onclick=beginIntro;$('pauseBtn').onclick=pause;$('resumeBtn').onclick=resume;$('retryBtn').onclick=retry;$('replayBtn').onclick=replay;$('homeBtn').onclick=home;
+for(const choice of document.querySelectorAll('[data-choice]'))choice.onclick=()=>select(choice.dataset.choice);
+const oldLanguageRefresh=refreshLanguage; // existing locale control is still the single source for language
+$('langBtn').addEventListener('click',()=>{refreshControls();});
+function distanceAt(choice,q){const f=frameFor('OUTCOME_PLAY',choice,q);return Math.hypot(f.npc1.x-f.npc2.x,f.npc1.z-f.npc2.z);}
+function scenarioCheck(){
+ const minima={};for(const b of ['A','B','C']){let best=Infinity,when=0;for(let j=0;j<=240;j++){const q=j/240,d=distanceAt(b,q);if(d<best){best=d;when=q;}}minima[b]={illustrativeClosestCenterDistance:Math.round(best*100)/100,atProgress:Math.round(when*1000)/1000};}
+ const sharedStart=['A','B','C'].every(b=>{const f=frameFor('OUTCOME_PLAY',b,0);return Math.abs(f.npc1.x-LESSON.tracks.intro.you.at(-1)[1])<1e-6&&Math.abs(f.npc1.z-LESSON.tracks.intro.you.at(-1)[2])<1e-6&&Math.abs(f.npc2.x-LESSON.tracks.intro.other.at(-1)[1])<1e-6&&Math.abs(f.npc2.z-LESSON.tracks.intro.other.at(-1)[2])<1e-6;});
+ const sameOtherBeforeReaction=['A','B','C'].every(b=>{const g=frameFor('OUTCOME_PLAY','B',.15).npc2,f=frameFor('OUTCOME_PLAY',b,.15).npc2;return Math.abs(g.x-f.x)<.00001&&Math.abs(g.z-f.z)<.00001;});
+ return {scenarioId:LESSON.id,sharedStart,sameOtherBeforeReaction,minima,distancesAreOnlyIllustrativeSceneUnits:true};
+}
+
+const originalInfo = $('deviceDetail').textContent;
+function toggleCinema(on){document.body.classList.toggle('cinema',!!on);requestFrame();}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&isAutoPhase())pause();});
+window.addEventListener('pagehide',()=>{if(isAutoPhase())pause();});
+function seek(ph,b,q){if(!['INTRO_PAGE','INTRO_PLAY','INTRO_PAUSED','DECISION','OUTCOME_PLAY','OUTCOME_PAUSED','RESULT'].includes(ph))throw Error('unknown phase '+ph);phase=ph;branch=b||null;progress=clamp(q);frameFrozen=true;returning=false;
+ if(ph==='INTRO_PLAY'||ph==='OUTCOME_PLAY')followSelectedCamera(ph,branch,progress);else if(ph==='RESULT')followSelectedCamera('OUTCOME_PLAY',branch,1);
+ else if(ph==='DECISION')followSelectedCamera('INTRO_PLAY',null,1);refreshControls();requestFrame();}
+window.__snow={status:()=>{const f=frameFor(phase,branch,progress);return {phase,branch,progress,time:progress*duration(),lang,freeCamera:!isAutoPhase(),playbackRate,phaseDurationSeconds:duration(),renderMode:webglReady?'webgl':fallbackReady?'software-3d':'unavailable',terrainTriangles:terrainIndices.length/3,actorCount:2,npc1:f.npc1,npc2:f.npc2,npc3:f.npc3,stanceEvidence:stanceEvidence(),cinema:document.body.classList.contains('cinema'),equipment:['snowboard','snowboard'],characterStyle:'low-poly-chibi-snowboarder',visibleCharacterLabels:false,apiVersion:'s3-two-lessons-v1',scenarioId:LESSON.id};},
+ geometryCheck:scenarioCheck,
+ pause,resume,retry,replay,choose:select,start:beginIntro,home,setPlaybackRate,
+ debug:{seek,frame:(b,q)=>frameFor('OUTCOME_PLAY',b,q),cinema:toggleCinema,caption:(eyebrow,title,sub)=>{cinemaLabel={eyebrow,title,sub};refreshControls();},reset:()=>{frameFrozen=false;runBase=performance.now()-progress*duration()*1000;requestFrame();}}
+};
+refreshControls();
+
+refreshLanguage();
+function refreshAccessibleCanvasLabels(){
+ const en=lang==='en';
+ $('gl').setAttribute('aria-label',en?'Rotatable 3D snow trail with snowboard riders':'可旋轉的 3D 雪道與單板滑手');
+ $('selfCanvas').setAttribute('aria-label',en?'Full-body snowboard stance preview':'完整單板滑手的側身站姿畫面');
+ $('selfCard').setAttribute('aria-label',en?'Your full-body snowboard stance':'你的全身單板站姿');
+}
+refreshAccessibleCanvasLabels();
+$('langBtn').addEventListener('click',refreshAccessibleCanvasLabels);
+function updateLargeTextMode(){document.body.classList.toggle('large-type',parseFloat(getComputedStyle($('btn-top')).fontSize)>18);}
+updateLargeTextMode();
+if('ResizeObserver' in window)new ResizeObserver(updateLargeTextMode).observe($('btn-top'));
+window.addEventListener('resize',updateLargeTextMode);
+window.addEventListener('resize',requestFrame);
+window.__proof={
+ getStatus:()=>({webglReady,fallbackReady,renderMode:webglReady?'webgl':fallbackReady?'software-3d':'unavailable',mode,lang,terrainTriangles:terrainIndices.length/3,contourSegments:contourCoords.length/6,markerCount:2,scenarioId:LESSON.id,actorTriangles:actorIndices.length/3,occlusion:{...occlusion},highTargetClear:highClear,camera:{yaw:cam.yaw,pitch:cam.pitch,distance:cam.distance},eyeCamera:{yaw:eyeCam.yaw,pitch:eyeCam.pitch,fov:eyeCam.fov,position:[...eye]},selfBody:{visibleInEyeMode:mode==='eye',mainEyeModel:'boots-bindings-and-board',fullBodyInset:mode==='eye',fullBodyInsetGeometry:mode==='eye'?'same authored 3D rider mesh':'hidden',bodyTriangleCount:povBodyIndexCount/3,parts:['helmet','goggles','arms','gloves','jacket','hips','knees','boots','bindings','one snowboard']},canvasSize:[canvas.width,canvas.height],apiVersion:'s1-poc-02-eye-body-scene-v1'}),
+ lookAtNpc:()=>setView('eye'),setView,rayTerrain,terrainHeight:H,eye:[...eye],target:[...targetSkier],markers:{npc1:{...N1},npc2:{...N2}}
+};
+})();
+</script>
+</body>
+</html>
