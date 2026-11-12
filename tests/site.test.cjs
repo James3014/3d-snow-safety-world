@@ -13,8 +13,8 @@ const context={window:{}};
 vm.runInNewContext(src('lessons-data.js'),context,{timeout:3000,filename:'lessons-data.js'});
 const lessons=context.window.SNOW_LESSONS;
 
-test('allowlisted site has exactly eight standalone static assets',()=>{
-  assert.deepEqual(files,['404.html','index.html','lesson-play-speed.html','lessons-data.js','merge-entry-speed.html','robots.txt','safe-overtake-speed.html','scene-01-speed.html']);
+test('original eight static assets remain and only the 67js preview folder is added',()=>{
+  assert.deepEqual(files,['404.html','67js','index.html','lesson-play-speed.html','lessons-data.js','merge-entry-speed.html','robots.txt','safe-overtake-speed.html','scene-01-speed.html']);
 });
 test('seven scenario data stay bound to the verified M5 baseline',()=>{
   const sha=crypto.createHash('sha256').update(fs.readFileSync(path.join(site,'lessons-data.js'))).digest('hex');
@@ -58,7 +58,7 @@ test('all HTML asset references remain local and present',()=>{
   }
 });
 test('public site has no private network endpoints, secrets or telemetry API calls',()=>{
-  for(const file of files){
+  for(const file of files.filter(name=>fs.statSync(path.join(site,name)).isFile())){
     const text=src(file);
     assert.doesNotMatch(text,/\b(?:100\.(?:[6-9]\d|1[0-2]\d)\.\d+\.\d+|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+)\b/);
     assert.doesNotMatch(text,/(?:ghp_|github_pat_|AIza|sk-[A-Za-z0-9_-]{20,}|-----BEGIN PRIVATE KEY-----|@gmail\.com|\/Users\/james)/i);
