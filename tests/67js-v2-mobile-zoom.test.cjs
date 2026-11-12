@@ -1,7 +1,7 @@
 'use strict';
 const test=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const path=require('node:path');
 const site=path.resolve(__dirname,'../site/67js-v2');const source=path.resolve(__dirname,'../experiments/67js-v2');
-test('V2 320px layout at 200 percent zoom keeps header buttons within viewport',()=>{
+test('V2 320px and 390px layout at 200 percent zoom keeps header buttons within viewport',()=>{
  const original=fs.readFileSync(path.join(source,'style.css'),'utf8');
  const head=fs.readFileSync(path.join(site,'index.html'),'utf8');
  const match=head.match(/href="\/3d-snow-safety-world\/67js-v2\/assets\/(index-[\w-]+\.css)"/);
@@ -10,5 +10,6 @@ test('V2 320px layout at 200 percent zoom keeps header buttons within viewport',
  for(const text of [original,deployed]){
   assert.match(text,/\.sitehead\s*\{\s*flex-wrap:\s*wrap\s*;\s*gap:\s*8px\s*\}/,'narrow viewport header must wrap');
   assert.match(text,/max-width:\s*360px|width\s*<=\s*360px/,'narrow breakpoint must exist');
+  assert.match(text,/sitehead\s*\{[^}]*flex-wrap:\s*wrap/,'mobile styles must flex-wrap the header at 390px as well');
  }
 });
