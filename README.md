@@ -25,7 +25,7 @@ python3 -m http.server 8080 --bind 127.0.0.1
 
 Open **http://127.0.0.1:8080/** in a browser with WebGL support. For a lightweight alternative, `npx` is **not** necessary.
 
-The published source intentionally retains `noindex` / `robots.txt` from the private-prototype baseline; no public website or GitHub Pages deployment is enabled by this repository.
+Public interactive demo: https://james3014.github.io/3d-snow-safety-world/ . The site retains `noindex` / `robots.txt` to avoid search indexing of educational material that still requires professional review. GitHub Pages hosts only the `site/` assets; it does not host the private QA artifacts.
 
 ## Test
 

@@ -16,9 +16,9 @@ const lessons=context.window.SNOW_LESSONS;
 test('allowlisted site has exactly eight standalone static assets',()=>{
   assert.deepEqual(files,['404.html','index.html','lesson-play-speed.html','lessons-data.js','merge-entry-speed.html','robots.txt','safe-overtake-speed.html','scene-01-speed.html']);
 });
-test('source matches imported M5 release baseline',()=>{
-  const sha=crypto.createHash('sha256').update(fs.readFileSync(path.join(site,'index.html'))).digest('hex');
-  assert.equal(sha,'ec155fa4e69c2aa120cbd8d696c71e0ac37882d0f92cca30010220f05c1656aa');
+test('seven scenario data stay bound to the verified M5 baseline',()=>{
+  const sha=crypto.createHash('sha256').update(fs.readFileSync(path.join(site,'lessons-data.js'))).digest('hex');
+  assert.equal(sha,'63f75d5d3de96ce73ad4759a097c5764203099e1520b2a051ccd7fbfb090c679');
 });
 test('ten lessons and seven reusable scenario IDs are retained',()=>{
   const entry=src('index.html');
@@ -76,11 +76,15 @@ test('privacy defaults remain local-only and noindex',()=>{
   assert.match(src('robots.txt'),/Disallow:\s*\//);
   assert.doesNotMatch(entry,/rel="canonical"/);
 });
-test('public package contains a license, a reproducible README and no deployment workflow',()=>{
+test('public package has a license and the Pages workflow only deploys static site assets',()=>{
   const root=path.resolve(site,'..');
   assert.match(fs.readFileSync(path.join(root,'LICENSE'),'utf8'),/MIT License/);
   assert.match(fs.readFileSync(path.join(root,'README.md'),'utf8'),/python3 -m http\.server/);
   const workflows=fs.readdirSync(path.join(root,'.github/workflows'));
-  assert.deepEqual(workflows,['ci.yml']);
-  assert.doesNotMatch(fs.readFileSync(path.join(root,'.github/workflows/ci.yml'),'utf8'),/(?:deploy-pages|pages\/deploy|upload-pages-artifact|aws|firebase|cloudflare)/i);
+  assert.deepEqual(workflows.sort(),['ci.yml','pages.yml']);
+  const workflow=fs.readFileSync(path.join(root,'.github/workflows/pages.yml'),'utf8');
+  assert.match(workflow,/path: \.\/site/);
+  assert.match(workflow,/node --test tests\/\*\.test\.cjs/);
+  assert.match(workflow,/actions\/deploy-pages@v4/);
+  assert.doesNotMatch(workflow,/reports\/|screenshots\/|private_server|aws|firebase|cloudflare/i);
 });

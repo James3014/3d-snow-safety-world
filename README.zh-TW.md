@@ -27,6 +27,6 @@ node --test tests/*.test.cjs
 
 ## 開源與發行界線
 
-本次只公開 GitHub 原始碼，**沒有啟用 GitHub Pages 或建立公開服務**。程式保留私有原型時期的 `noindex` 設定；未經專案 Owner 授權，不得聲稱這是正式教學、安全認證或公開上線版本。專案名稱仍是工作名稱，正式品牌需另行確認。
+公開試玩網站：https://james3014.github.io/3d-snow-safety-world/ 。現已授權部署 GitHub Pages，**但這仍是未完成專業安全驗收的公開展示原型**，不能當作正式安全認證。網站保留 `noindex`，暫不供搜尋引擎索引；內部 QA 與私人紀錄不會發布。專案名稱仍是工作名稱，正式品牌需另行確認。
 
 原始碼採 MIT 授權；第三方商標、雪場照片或官方守則文件不包含在授權範圍。參與開發請閱讀 [CONTRIBUTING.md](CONTRIBUTING.md)，安全問題請參照 [SECURITY.md](SECURITY.md)。
