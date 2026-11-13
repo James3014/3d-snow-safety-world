@@ -13,8 +13,8 @@ const context={window:{}};
 vm.runInNewContext(src('lessons-data.js'),context,{timeout:3000,filename:'lessons-data.js'});
 const lessons=context.window.SNOW_LESSONS;
 
-test('original eight static assets remain, with independent 67js V1 and V2 preview folders',()=>{
-  assert.deepEqual(files,['404.html','67js','67js-v2','index.html','lesson-play-speed.html','lessons-data.js','merge-entry-speed.html','robots.txt','safe-overtake-speed.html','scene-01-speed.html']);
+test('original eight static assets remain, with independent 67js previews',()=>{
+  assert.deepEqual(files,['404.html','67js','67js-ten','67js-v2','index.html','lesson-play-speed.html','lessons-data.js','merge-entry-speed.html','robots.txt','safe-overtake-speed.html','scene-01-speed.html']);
 });
 test('seven scenario data stay bound to the verified M5 baseline',()=>{
   const sha=crypto.createHash('sha256').update(fs.readFileSync(path.join(site,'lessons-data.js'))).digest('hex');
