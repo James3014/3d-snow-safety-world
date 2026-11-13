@@ -1,0 +1,8 @@
+# The Issue #7 PR contains reusable source only. Never commit an experiment
+# build, local npm packages, QA captures, private staging, or machine evidence.
+**/dist/
+**/node_modules/
+**/evidence/
+preview*/
+shared-preview/
+qa/

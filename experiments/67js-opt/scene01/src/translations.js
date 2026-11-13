@@ -1,0 +1,51 @@
+export const translations={
+ zh:{
+  versionTag:'67.js V2 · 對等試作',
+  eyebrow:'第一題・一個決定，三種結果',headline:'滑過小山頭前，你會怎麼做？',subtitle:'藍色單板滑手是你；橘色滑手在坡頂後方。看不見對方時，你會怎麼做？',
+  viewTop:'俯瞰',viewSide:'側視',viewEye:'你的視角',resetCamera:'重設鏡頭',lookDown:'看腳下',selfTitle:'你的單板站姿',expand:'放大',collapse:'縮小',selfFoot:'雙腳固定在同一片板上',viewInfo:'拖曳旋轉 · 雙指縮放',
+  blue:'你｜藍色單板',orange:'前方｜橘色單板',purple:'後方｜紫色單板',
+  start:'開始小挑戰',pause:'暫停',resume:'繼續',retry:'再選一次',replay:'重播結果',speedLabel:'速度',illus:'動畫比例為示意，不代表實際速度與安全距離',
+  footer:'本頁使用 67.js Renderer67、關節式單板角色與原題共同時間軸。不是實測滑行速度，也不是安全認證。',openOriginal:'開啟原版',compare:'比較原版、67.js V1 與 V2',
+  optionA:'照原本速度，直接滑過去',optionB:'先慢下來，邊看邊通過',optionC:'通過後停在坡後盲區',
+  ready:'準備',playing:'情境開始',paused:'已暫停',decision:'輪到你選擇',resultPhase:'結果觀察',outcome:'看看後果',
+  readyTitle:'先觀察小山頭後面的情況',readyDetail:'雪道凸起擋住視線，你無法直接看到另一邊。',
+  playTitle:'接近凸坡時，注意視線與速度',playDetail:'從俯瞰、側面和自己的視角觀察滑手位置。',
+  pauseTitle:'停下來，換個角度看清楚',pauseDetail:'角色時間已凍結。你可以旋轉或縮放畫面。',
+  choiceTitle:'看不見坡後的人，你會怎麼做？',choiceDetail:'請選 A、B 或 C。三個結果都使用同一個決策起點。',
+  outcomeTitle:'觀察不同做法帶來的後果',outcomeDetail:'動畫顯示每個人的位置及反應，不代表一定發生碰撞。',
+  resultTitle:'選擇 {branch}：發生了什麼？',resultDetail:'請換角度看清前後滑手，再決定要不要重播。',
+  resultA:'沒有先降低速度，越過坡頂才看見前方的人，反應時間變短。這不代表一定會碰撞。',
+  resultB:'先減速並確認前方，可以保留更多反應時間與避讓空間；減速仍不是安全保證。',
+  resultC:'在坡後盲區停下，後方紫色滑手接近後才發現你，必須轉向避讓。請注意其他人也可能看不見你。',
+  occluded:'地形遮擋：前方滑手看不見',visible:'前方滑手已進入視線',engineUnavailable:'這台裝置不能啟動 WebGL2。請使用支援 WebGL2 的瀏覽器，或開啟有軟體預覽的原版。',
+  playbackStatus:'播放',standbyStatus:'就緒',pauseStatus:'暫停',frameUpdate:'畫面更新',cameraLabel:'鏡頭模式',sceneLabel:'立體雪道與單板滑手',speedAria:'播放速度'
+ },
+ en:{
+  versionTag:'67.js V2 · parity pilot',
+  eyebrow:'LESSON 01 · ONE DECISION, THREE OUTCOMES',headline:'What would you do before crossing a blind crest?',subtitle:'You are the blue snowboarder. The orange rider is hidden beyond the crest. You cannot see them yet—what will you do?',
+  viewTop:'Overhead',viewSide:'Side view',viewEye:'Your view',resetCamera:'Reset camera',lookDown:'Look at board',selfTitle:'Your snowboard stance',expand:'Expand',collapse:'Close',selfFoot:'Both boots fixed to one board',viewInfo:'Drag to orbit · Pinch to zoom',
+  blue:'You · Blue board',orange:'Ahead · Orange board',purple:'Behind · Purple board',
+  start:'Start the challenge',pause:'Pause',resume:'Continue',retry:'Choose again',replay:'Replay outcome',speedLabel:'Speed',illus:'Illustrative motion, not measured speed or safe stopping distance',
+  footer:'This V2 demo uses Renderer67, an articulated snowboard rig and the same authored scenario timeline. Not measured ski speeds or a safety certification.',openOriginal:'Open original',compare:'Compare original, 67.js V1 and V2',
+  optionA:'Keep your speed and go straight over',optionB:'Slow down, check ahead, then pass',optionC:'Cross slowly, then stop beyond the crest',
+  ready:'Ready',playing:'Approaching crest',paused:'Paused',decision:'Your decision',resultPhase:'Review the result',outcome:'What happens next',
+  readyTitle:'Observe the hill before starting',readyDetail:'The convex snow surface blocks your view of the other side.',
+  playTitle:'Watch your speed and sightline',playDetail:'Compare the overhead, side and rider-eye camera views.',
+  pauseTitle:'Pause and inspect the scene',pauseDetail:'All riders are frozen. Drag or zoom the camera to explore.',
+  choiceTitle:'You cannot see beyond the crest. What now?',choiceDetail:'Choose A, B or C. All three start from the same decision checkpoint.',
+  outcomeTitle:'Watch the consequences of your decision',outcomeDetail:'Positions and reactions are illustrative; no collision is guaranteed.',
+  resultTitle:'Choice {branch}: what happened?',resultDetail:'Check each rider from different angles, or replay the scene.',
+  resultA:'Without slowing down, you see the rider ahead only after crossing the crest. You have less time to react; collision is not inevitable.',
+  resultB:'Slowing and checking ahead preserves more time and room to react. It is not a guarantee of safety.',
+  resultC:'Stopping in the blind spot exposes you to an approaching purple rider, who must turn to avoid you. Others may not be able to see you either.',
+  occluded:'Sightline blocked by terrain',visible:'Rider ahead is visible',engineUnavailable:'WebGL2 is unavailable on this device. Use a compatible browser or open the original software-preview version.',
+  playbackStatus:'Playing',standbyStatus:'Ready',pauseStatus:'Paused',frameUpdate:'Frame update',cameraLabel:'Camera views',sceneLabel:'3D ski slope and riders',speedAria:'Playback speed'
+ }
+};
+
+// Shared learning-mode guidance, deliberately absent until the demo control is selected.
+Object.assign(translations.zh,{"practiceLabel": "練習模式：自己觀察", "demoLabel": "示範模式：提供觀察線索", "showDemo": "開啟示範", "hideDemo": "返回練習", "tipIntro": "示範：接近坡頂時先控制速度，注意前方視線能看多遠。", "tipDecision": "示範：凸坡遮住前方的人；別把看不到當作沒有人。", "tipA": "示範：通過坡頂後才看到另一人，反應時間可能不足；動畫不代表必然碰撞。", "tipB": "示範：先減速並觀察，能留出較多反應時間；仍要持續確認周圍。", "tipC": "示範：在視線不良處停下，後方滑手可能看不見你。"});
+Object.assign(translations.en,{"practiceLabel": "Practice: look for hazards yourself", "demoLabel": "Demonstration: visual guidance", "showDemo": "Show demonstration", "hideDemo": "Return to practice", "tipIntro": "Demonstration: control speed before a crest and check how far ahead you can see.", "tipDecision": "Demonstration: the convex slope hides the rider ahead. Not seeing someone does not mean no one is there.", "tipA": "Demonstration: seeing someone only after the crest reduces time to react. Collision is not inevitable.", "tipB": "Demonstration: slowing and checking ahead keeps more time to react, not a guarantee of safety.", "tipC": "Demonstration: stopping where visibility is poor may leave you unseen from behind."});
+
+// Private before-and-after comparison portal; the source of truth remains the lesson.
+translations.zh.compare='比較前兩題改良前後';translations.en.compare='Compare before and after';
