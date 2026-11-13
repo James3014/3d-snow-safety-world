@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><link rel="icon" href="data:,"><title>雪道中間有障礙，現在怎麼辦？｜67.js V2</title>  <script type="module" crossorigin src="./assets/index-D43BqmrV.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DCUKP3Na.css">
+</head>
+<body><main class="shell">
+<header class="sitehead"><div class="brand"><span class="mountain" aria-hidden="true">◭</span><span>3D SNOW SAFETY WORLD</span></div><div class="head-actions"><span class="version" id="versionTag" data-i18n="versionTag">67.js V2 · 對等試作</span><button id="langBtn" type="button" aria-label="Switch language">EN</button></div></header>
+<section class="hero"><p class="eyebrow" data-i18n="eyebrow">第5題・前方障礙</p><h1 id="headline" data-i18n="headline">雪道中間有障礙，現在怎麼辦？</h1><p id="subtitle" data-i18n="subtitle">繞開前方障礙，也別撞進另一個人的路線。</p></section>
+<section class="lesson box"><div class="stage" id="stage">
+ <canvas id="scene" tabindex="0" role="img" aria-label="立體雪道：雪道中間有障礙，現在怎麼辦？"></canvas>
+ <div class="viewbar" role="group" aria-label="Camera views"><button id="viewTop" data-view="top" aria-pressed="true" class="active" data-i18n="viewTop">俯瞰</button><button id="viewSide" data-view="side" aria-pressed="false" data-i18n="viewSide">側視</button><button id="viewEye" data-view="eye" aria-pressed="false" data-i18n="viewEye">你的視角</button><button id="resetCamera" data-i18n="resetCamera">重設鏡頭</button><button id="lookDown" aria-pressed="false" hidden data-i18n="lookDown">看腳下</button></div>
+ <div id="selfCard" class="self-card" hidden aria-label="自己的完整單板站姿"><div class="self-title" id="selfTitle" data-i18n="selfTitle">你的單板站姿</div><button id="selfExpand" type="button" data-i18n="expand">放大</button><canvas id="selfCanvas" role="img" aria-label="與主角相同姿勢的完整立體滑手"></canvas><span id="selfFoot" data-i18n="selfFoot">雙腳固定在同一片板上</span></div>
+ <div class="scene-help"><span id="viewInfo" data-i18n="viewInfo">拖曳旋轉 · 雙指縮放</span><span id="occlusion">由前方路況決定安全動作</span></div>
+ <div id="error" role="alert" hidden></div>
+ <div class="legend"><span><i class="dot blue"></i><span data-i18n="blue">你｜藍色單板</span></span><span><i class="dot orange"></i><span data-i18n="orange">前方｜橘色單板</span></span><span id="purpleLegend" hidden><i class="dot purple"></i><span data-i18n="purple">後方｜紫色單板</span></span></div>
+ </div>
+ <div class="control-panel"><div class="mode-switch"><span id="modeLabel">練習模式：自己看前方</span><button id="learningModeToggle" type="button" aria-pressed="false">開啟示範</button></div><div class="micro" id="phaseName" aria-live="polite">準備</div><h2 id="phaseTitle">前面的人滑得比較慢，要超過嗎？</h2><p id="detail">前方橘色滑手可能轉彎。先觀察對方的滑行路線。</p><div id="coachTip" class="coach-tip" hidden></div>
+ <div id="choices" class="choices" hidden><button class="choice" data-branch="A" type="button"><b>A</b><span data-i18n="optionA">維持速度穿過人群</span></button><button class="choice" data-branch="B" type="button"><b>B</b><span data-i18n="optionB">提早減速並留空間</span></button><button class="choice" data-branch="C" type="button"><b>C</b><span data-i18n="optionC">靠近後才急煞</span></button></div>
+ <div class="result" id="result" hidden></div><div class="controls"><button id="start" type="button" class="primary" data-i18n="start">開始小挑戰</button><button id="pause" type="button" hidden data-i18n="pause">暫停</button><button id="resume" type="button" hidden data-i18n="resume">繼續</button><button id="retry" type="button" hidden data-i18n="retry">再選一次</button><button id="replay" type="button" hidden data-i18n="replay">重播結果</button><label for="speed" data-i18n="speedLabel">速度</label><select id="speed" aria-label="播放速度"><option value="1">1×</option><option value="0.5">0.5×</option><option value="0.25">0.25×</option></select></div>
+ <div class="progress-track" role="progressbar" aria-label="動畫播放進度" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><span id="progressFill"></span></div>
+ <div class="stats"><span id="renderStatus">67.js 初始化中</span><span id="fps">畫面更新：—</span><span data-i18n="illus">動畫比例為示意，不代表實際速度與安全距離</span></div></div>
+</section>
+<footer class="foot"><strong>67.js Scene 05｜第5題共用 Runtime 試作</strong><span data-i18n="footer">本頁使用 67.js Renderer67、關節式單板角色與原題共同時間軸。不是實測滑行速度，也不是安全認證。</span><a href="https://james3014.github.io/3d-snow-safety-world/lesson-play-speed.html?lesson=object-ahead" target="_blank" rel="noopener noreferrer" data-i18n="openOriginal">開啟原版</a><a href="../" data-i18n="compare">比較前兩題的改良前後</a></footer>
+</main></body></html>
