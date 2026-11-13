@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "67js": "npm:@codepawlhq/67js@0.19.0"
+  },
+  "name": "snow-safety-67js-lift-exit-gate",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 8398 --strictPort",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "vite": "8.3.5",
+    "pngjs": "7.0.0",
+    "playwright-core": "1.64.1"
+  }
+}

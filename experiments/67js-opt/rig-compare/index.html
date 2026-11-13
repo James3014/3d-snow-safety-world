@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Issue #7｜滑手角色 A/B 隔離比較</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;color:#234455;background:#edf5f9}
+*{box-sizing:border-box}body{margin:0}main{max-width:1450px;margin:auto;padding:16px}
+h1{font-size:clamp(21px,3.5vw,32px);margin:10px 0}h2{font-size:17px;margin:0}
+p{line-height:1.6;color:#557389;font-size:13px}
+header{margin-bottom:15px}.eyebrow{letter-spacing:.08em;font-size:11px;font-weight:900;color:#267494}
+.controls{display:flex;gap:10px;flex-wrap:wrap;padding:12px;background:white;border:1px solid #cee1eb;border-radius:14px;margin-bottom:14px}
+label{display:flex;gap:5px;align-items:center;font-size:13px;font-weight:700;color:#345a70}
+select,button{padding:9px 10px;min-height:43px;border-radius:9px;border:1px solid #a9c9d8;background:#f8fcff;color:#28556d;font:inherit;font-size:13px}
+select:focus-visible,button:focus-visible{outline:3px solid #db983a}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.frame{background:white;min-width:0;border:1px solid #c5dae6;border-radius:15px;overflow:hidden}
+.frame h2{padding:12px 14px;color:#25506a}
+iframe{width:100%;height:775px;display:block;border:0;background:#eff7fb}
+.note{background:#fff;padding:13px;border-radius:12px;margin-top:12px;border:1px solid #d4e4ec}
+.status{font:12px ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere;color:#49677a}
+@media(max-width:800px){.grid{grid-template-columns:1fr}iframe{height:725px}.controls{gap:7px}label{width:100%;justify-content:space-between}}
+</style>
+</head>
+<body><main>
+<header><div class="eyebrow">3D SNOW SAFETY WORLD · ISSUE #7 · PRIVATE PREVIEW</div>
+<h1>簡化幾何滑手｜原版／新版同時比較</h1>
+<p>兩側採用相同情境、分支與時間點，只改變角色外觀。這是獨立試驗，不是正式課程替換；手機可以往下看第二張比較畫面。</p></header>
+<section class="controls" aria-label="A/B 同步控制">
+<label>情境<select id="lesson"><option value="04">04｜人多時控速</option><option value="01">01｜坡頂盲區</option><option value="09">09｜纜車出口</option></select></label>
+<label>時刻<select id="moment"><option value="decision">決策點</option><option value="mid">分支中段</option><option value="result">結果</option></select></label>
+<label>分支<select id="branch"><option value="A">A</option><option value="B" selected>B</option><option value="C">C</option></select></label>
+<label>鏡頭<select id="view"><option value="top">俯瞰</option><option value="side">側視</option><option value="eye">你的視角</option></select></label>
+<button type="button" id="apply">同步畫面</button>
+</section>
+<section class="grid">
+<div class="frame"><h2>A｜現有角色（保持原模型）</h2><iframe id="legacy" title="原版角色、可操作的 67.js 場景" src="./lesson04/" loading="eager"></iframe></div>
+<div class="frame"><h2>B｜新幾何人形（白色圓頭與身份色）</h2><iframe id="geometric" title="簡化幾何角色、可操作的 67.js 場景" src="./lesson04/" loading="eager"></iframe></div>
+</section>
+<section class="note"><strong>操作說明</strong><p>使用上方選單可同步比較指定題目、A/B/C 分支、決策／中段／結果及三種鏡頭；下方每個場景仍可獨立播放、暫停、慢速、選擇與切換角色。新版保留舊角色回退。</p><div class="status" id="status" role="status">初始化對照中…</div></section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const frames=[{el:$('legacy'),style:'legacy'},{el:$('geometric'),style:'geometric'}];
+function snapshot(){return {lesson:$('lesson').value,moment:$('moment').value,branch:$('branch').value,view:$('view').value};}
+function setFrame(frame,state){
+ try{
+  const pilot=frame.el.contentWindow.__pilot;
+  if(!pilot)return false;
+  pilot.setRigStyle(frame.style);
+  pilot.setView(state.view);
+  const phase=state.moment==='decision'?'DECISION':state.moment==='mid'?'OUTCOME_PAUSED':'RESULT';
+  pilot.debug.seek(phase,state.moment==='decision'?null:state.branch,state.moment==='decision'?1:state.moment==='mid'?.5:1);
+  return true;
+ }catch(e){return false;}
+}
+function render(){
+ const s=snapshot(),target='./lesson'+s.lesson+'/';
+ let ready=0;
+ for(const f of frames){
+  const current=f.el.contentWindow?.location?.pathname||'';
+  if(!current.endsWith('/lesson'+s.lesson+'/')&&!current.endsWith('/lesson'+s.lesson+'/index.html'))f.el.src=target;
+  else if(setFrame(f,s))ready++;
+ }
+ $('status').textContent=ready===2?'兩側已同步｜'+s.lesson+' 題｜'+s.moment+'｜'+s.branch+'｜'+s.view:
+   '載入／同步中：'+ready+'/2；WebGL2 不可用時場景會提供原版入口';
+}
+for(const f of frames)f.el.addEventListener('load',()=>{setFrame(f,snapshot());render();});
+for(const id of ['lesson','moment','branch','view'])$(id).addEventListener('change',render);
+$('apply').addEventListener('click',render);
+const params=new URLSearchParams(location.search),selected=params.get('lesson');
+if(['01','04','09'].includes(selected))$('lesson').value=selected;
+render();
+</script></body></html>

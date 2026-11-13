@@ -1,0 +1,416 @@
+{
+  "id": "crowd-control",
+  "version": "series-10-alpha-20261110",
+  "discipline": "snowboard",
+  "learningGoal": "依雪道密度提前調整速度",
+  "sourceRefs": [
+    "FIS2",
+    "NSAA1"
+  ],
+  "camera": {
+    "topYaw": -0.65,
+    "centerX": -1,
+    "centerZ": 0,
+    "distance": 36,
+    "sideDistance": 21
+  },
+  "terrain": {
+    "base": 10,
+    "slope": 0.29,
+    "camber": 0.008,
+    "ridge": 0.16,
+    "ridgeX": -3,
+    "ridgeZ": 1,
+    "wave": 0.12
+  },
+  "hotspot": [
+    -1,
+    -3
+  ],
+  "hotspotLabel": {
+    "zh": "◎ 人多時控速",
+    "en": "◎ Busy slope"
+  },
+  "lanes": [
+    {
+      "points": [
+        [
+          0,
+          -16
+        ],
+        [
+          0,
+          -8
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          16
+        ]
+      ],
+      "width": 9
+    }
+  ],
+  "props": [
+    {
+      "type": "slow",
+      "x": -7.2,
+      "z": -1,
+      "labelZh": "人多慢行",
+      "labelEn": "SLOW"
+    }
+  ],
+  "otherPose": "standing",
+  "copy": {
+    "zh": {
+      "introTitle": "前面人多了，還要照原速滑嗎？",
+      "introCopy": "橘色滑手正在前面轉彎，能自由選路的空間變少了。",
+      "intro": "雪道開始熱鬧起來",
+      "decision": "人變多了，你會怎麼滑？",
+      "choice": [
+        "不變速，從人旁邊快速穿過",
+        "提早放慢，留出轉彎空間",
+        "等靠近了才突然用力煞車"
+      ],
+      "lesson": {
+        "A": "你接近得太快，橘色滑手只好改線。人多時必須依能力和交通調整速度。",
+        "B": "你提早減速，與對方的路線分得更開。仍要持續觀察，減速不保證安全。",
+        "C": "你快靠近才急煞，依然停在他旁邊。提早調整速度比最後一刻才反應更好。"
+      },
+      "stage": "藍色：你 ／ 橘色：前方轉彎的滑手",
+      "start": "開始這個小挑戰",
+      "outcome": "看看接下來發生什麼事…",
+      "result": "原來是這樣！轉個角度看看",
+      "paused": "暫停一下，換個角度看",
+      "pause": "暫停一下",
+      "resume": "繼續看",
+      "retry": "換一種做法",
+      "replay": "再看一次",
+      "home": "回到雪山",
+      "hint": "這是預先編排的安全情境，非真實速度與距離的保證。",
+      "phase": {
+        "INTRO_PAGE": "準備好了嗎？",
+        "INTRO_PLAY": "故事開始",
+        "INTRO_PAUSED": "停一下看看",
+        "DECISION": "輪到你選擇",
+        "OUTCOME_PLAY": "你的選擇會怎樣？",
+        "OUTCOME_PAUSED": "停一下看看",
+        "RESULT": "發生了什麼事？"
+      }
+    },
+    "en": {
+      "introTitle": "More riders ahead — same speed?",
+      "introCopy": "A rider ahead is turning. There is less room to choose your line.",
+      "intro": "The slope is getting busy",
+      "decision": "What will you do in traffic?",
+      "choice": [
+        "Keep speed and squeeze through",
+        "Slow early and leave room",
+        "Brake suddenly at the last moment"
+      ],
+      "lesson": {
+        "A": "You get too close; the orange rider must change course. Adjust speed to traffic.",
+        "B": "You slow early and create room to react. Keep watching; slowing is not a guarantee.",
+        "C": "You brake only when close and still crowd their path. Look and adjust earlier."
+      },
+      "stage": "Blue: you / Orange: rider turning ahead",
+      "start": "Start this challenge",
+      "outcome": "See what happens next…",
+      "result": "Now you know! Explore the scene",
+      "paused": "Paused — look around",
+      "pause": "Pause",
+      "resume": "Continue",
+      "retry": "Try another choice",
+      "replay": "Watch again",
+      "home": "Back to mountain",
+      "hint": "Authored scene, not a safe speed or distance guarantee.",
+      "phase": {
+        "INTRO_PAGE": "Ready?",
+        "INTRO_PLAY": "Here we go",
+        "INTRO_PAUSED": "Take another look",
+        "DECISION": "Your turn",
+        "OUTCOME_PLAY": "What happens next?",
+        "OUTCOME_PAUSED": "Take another look",
+        "RESULT": "What happened?"
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "top": "從上面看",
+      "eye": "你的視角",
+      "side": "從側面看",
+      "reset": "重來",
+      "lookDown": "看腳下",
+      "gesture": "單指轉一轉 · 雙指放大看",
+      "device": "可以動手探索",
+      "deviceDetail": "手機真機效能仍待測試。",
+      "one": "你（藍色單板）",
+      "two": "另一位（橘色單板）",
+      "eyeInfo": "從你的眼睛看出去",
+      "topInfo": "從上面看全景",
+      "sideInfo": "從側面看動作",
+      "note": "角色均為單板 · 可換角度",
+      "rayDetail": "",
+      "units": "",
+      "eyebrow": "互動雪山 · 第 4 題",
+      "tag": "情境 4 / 人多時控速",
+      "headline": "前面人多了，還要照原速滑嗎？",
+      "subtitle": "前方有人轉彎，觀察速度如何改變你的反應空間。",
+      "terrain": "有立體坡度與路線",
+      "terrainDetail": "這題的地形、標記與道路重新設計。",
+      "trafficStatus": "雪道開始熱鬧起來",
+      "trafficDetail": "橘色滑手正在前面轉彎，能自由選路的空間變少了。"
+    },
+    "en": {
+      "top": "From above",
+      "eye": "Your view",
+      "side": "Side view",
+      "reset": "Reset",
+      "lookDown": "Look at board",
+      "gesture": "Drag to look around · pinch to zoom",
+      "device": "Ready to explore",
+      "deviceDetail": "Real-phone performance is untested.",
+      "one": "You (blue snowboard)",
+      "two": "Other rider (orange snowboard)",
+      "eyeInfo": "Your view of the slope",
+      "topInfo": "The scene from above",
+      "sideInfo": "Movement from the side",
+      "note": "Snowboarders · change viewpoint",
+      "rayDetail": "",
+      "units": "",
+      "eyebrow": "Interactive mountain · Lesson 4",
+      "tag": "SCENE 4 / Busy slope",
+      "headline": "More riders ahead — same speed?",
+      "subtitle": "More traffic means less room to react.",
+      "terrain": "A 3D slope and paths",
+      "terrainDetail": "This scenario has its own terrain and paths.",
+      "trafficStatus": "The slope is getting busy",
+      "trafficDetail": "A rider ahead is turning. There is less room to choose your line."
+    }
+  },
+  "tracks": {
+    "intro": {
+      "you": [
+        [
+          0,
+          -4.8,
+          -12,
+          0,
+          0
+        ],
+        [
+          1,
+          -3,
+          -4,
+          0,
+          0
+        ]
+      ],
+      "other": [
+        [
+          0,
+          1.8,
+          -11,
+          0,
+          0
+        ],
+        [
+          1,
+          1.6,
+          -3.7,
+          0,
+          0
+        ]
+      ]
+    },
+    "outcomes": {
+      "A": {
+        "you": [
+          [
+            0,
+            -3,
+            -4,
+            0,
+            0
+          ],
+          [
+            0.25,
+            -2,
+            -1.8,
+            0.12,
+            0
+          ],
+          [
+            0.52,
+            -0.35,
+            2.8,
+            -0.06,
+            0.12
+          ],
+          [
+            1,
+            0.7,
+            11,
+            0.02,
+            0
+          ]
+        ],
+        "other": [
+          [
+            0,
+            1.6,
+            -3.7,
+            0,
+            0
+          ],
+          [
+            0.38,
+            1.65,
+            1,
+            0,
+            0
+          ],
+          [
+            0.6,
+            3.05,
+            5,
+            0.3,
+            0.12
+          ],
+          [
+            1,
+            3.1,
+            12,
+            0,
+            0
+          ]
+        ]
+      },
+      "B": {
+        "you": [
+          [
+            0,
+            -3,
+            -4,
+            0,
+            0
+          ],
+          [
+            0.34,
+            -3.25,
+            -2,
+            0.5,
+            0.1
+          ],
+          [
+            0.72,
+            -4,
+            3.8,
+            0.21,
+            0.06
+          ],
+          [
+            1,
+            -3,
+            9.5,
+            0,
+            0
+          ]
+        ],
+        "other": [
+          [
+            0,
+            1.6,
+            -3.7,
+            0,
+            0
+          ],
+          [
+            0.38,
+            1.65,
+            1,
+            0,
+            0
+          ],
+          [
+            1,
+            1.65,
+            12.2,
+            0,
+            0
+          ]
+        ]
+      },
+      "C": {
+        "you": [
+          [
+            0,
+            -3,
+            -4,
+            0,
+            0
+          ],
+          [
+            0.28,
+            -2.6,
+            -2.5,
+            0.2,
+            0.08
+          ],
+          [
+            0.62,
+            -1,
+            3.1,
+            1.25,
+            0.18
+          ],
+          [
+            1,
+            -0.9,
+            4.6,
+            1.28,
+            0
+          ]
+        ],
+        "other": [
+          [
+            0,
+            1.6,
+            -3.7,
+            0,
+            0
+          ],
+          [
+            0.38,
+            1.65,
+            1,
+            0,
+            0
+          ],
+          [
+            0.72,
+            2.55,
+            6.7,
+            0.17,
+            0
+          ],
+          [
+            1,
+            2.7,
+            12,
+            0,
+            0
+          ]
+        ]
+      }
+    }
+  }
+}
