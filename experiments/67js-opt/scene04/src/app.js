@@ -7,7 +7,7 @@ import {translations} from './translations.js';
 import {worldParts} from './terrain-parts.js';
 import {SCENARIO,H,frameFor,causalChecks} from './scenario.js';
 import {clamp} from './geometry.js';
-const rigChoice=createSmoothMotionRigChoice({geometry,legacyCreateRider,legacySetRiderPose,discipline:'snowboard',createSkinPose});
+const rigChoice=createSmoothMotionRigChoice({geometry,legacyCreateRider,legacySetRiderPose,discipline:'snowboard',createSkinPose,groundHeight:H});
 startLessonRuntime({
  Renderer67,VERSION,worldParts,H,clamp,frameFor,causalChecks,createRider:rigChoice.createRider,setRiderPose:rigChoice.setRiderPose,rigChoice,rigDiscipline:'snowboard',translations,
  scenarioId:SCENARIO.id,edition:'Scene04-shared-gate',titleSuffix:' | 67.js Scene 04',
