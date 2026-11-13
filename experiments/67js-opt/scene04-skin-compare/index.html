@@ -1,0 +1,31 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><link rel="icon" href="data:,">
+<title>Issue #7｜第 4 題 V3 動態人形 A/B</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;background:#e9f2f7;color:#234c63}*{box-sizing:border-box}body{margin:0}main{max-width:1420px;padding:18px 20px 40px;margin:auto}h1{font-size:clamp(23px,3vw,33px);margin:7px 0 10px;letter-spacing:-.02em}p{font-size:13px;color:#5e7d90;line-height:1.65}.kicker{font-size:11px;font-weight:800;color:#277497;letter-spacing:.14em}.note{background:#fff;padding:13px 16px;border:1px solid #c5dce6;border-radius:12px;margin-top:14px}.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;border:1px solid #c5dce6;border-radius:14px;background:#fff;padding:14px 15px;margin:18px 0}label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}select,button{font:inherit;color:#24536c;background:#f7fafc;border:1px solid #adc8d7;padding:10px 11px;min-height:44px;border-radius:9px}button{font-size:13px;font-weight:700;cursor:pointer}button:hover{background:#dceef7}button:focus-visible,select:focus-visible{outline:3px solid #e5ad4d}.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}.pane{min-width:0;background:#fff;border:1px solid #c7dee8;border-radius:15px;overflow:hidden}.pane.v3{border-color:#5fa9a8}.pane .head{padding:12px 15px;font-weight:700;display:flex;justify-content:space-between;gap:8px}.pane small{font-size:11px;color:#67899f;font-weight:500}.pane iframe{width:100%;height:780px;border:0;display:block;background:#eaf5fb}.status{font:12px ui-monospace,SFMono-Regular,monospace;white-space:pre-wrap;color:#3c6b83;overflow-wrap:anywhere}
+@media(max-width:780px){main{padding:13px}.pair{grid-template-columns:1fr}.pane iframe{height:740px}.controls{gap:8px}label{flex:1 1 45%;min-width:0;justify-content:space-between}select{max-width:68%;min-width:0}.pane .head{font-size:14px}}
+</style></head><body><main><header><div class="kicker">3D SNOW SAFETY WORLD · ISSUE #7 · SCENE 04 ONLY · PRIVATE</div><h1>人多時控速｜經典角色 vs V3 動態連續曲面</h1><p>兩邊使用同一題、同一份 A/B/C 安全因果、同一時間點與相機。V3 身體可依原始進度和傾斜資訊彎曲，雙腳仍固定在同一片單板。此為工程試驗，不是安全動作認證或正式版本。</p></header>
+<section class="controls" aria-label="同時控制兩個場景">
+ <label>分支 <select id="branch"><option value="A">A</option><option value="B" selected>B</option><option value="C">C</option></select></label>
+ <label>鏡頭 <select id="view"><option value="top">俯視</option><option value="side" selected>側視</option><option value="eye">第一人稱</option></select></label>
+ <label>時間點 <select id="moment"><option value="decision">選擇之前</option><option value="start">結果開始</option><option value="quarter">結果 25%</option><option value="mid" selected>結果 50%</option><option value="late">結果 80%</option><option value="result">結果結束</option></select></label>
+ <button id="apply" type="button">同步兩側畫面</button>
+ </section>
+<section class="pair"><article class="pane" aria-label="原始角色"><div class="head">A｜原始角色 <small>原有模型／可隨時回退</small></div><iframe id="classic" title="第 04 題原始角色互動播放器" src="./lesson04/"></iframe></article><article class="pane v3" aria-label="新 V3 角色"><div class="head">B｜V3 平滑動態人形 <small>連續表面／GPU 關節變形</small></div><iframe id="smooth" title="第 04 題 V3 互動播放器" src="./lesson04/"></iframe></article></section>
+<div class="note"><strong>實際操作</strong><p>上方選單同步到指定時刻與鏡頭；各側下方的原場景仍可直接播放、暫停、變速、重試或選擇結果。手機視口採上下排列。第一人稱使用原本眼位與姿勢小窗，尚未把 V3 新頭部高度視為新的安全相機標準。</p><div id="status" role="status" aria-live="polite" class="status">載入 WebGL2 中…</div></div></main>
+<script>
+const $=id=>document.getElementById(id);const frames=[{el:$('classic'),rig:'legacy'},{el:$('smooth'),rig:'geometric'}];
+const snapshots={decision:['DECISION',null,1],start:['OUTCOME_PAUSED',null,0],quarter:['OUTCOME_PAUSED',null,.25],mid:['OUTCOME_PAUSED',null,.5],late:['OUTCOME_PAUSED',null,.8],result:['RESULT',null,1]};
+function sync(){const b=$('branch').value,v=$('view').value,m=$('moment').value;let ready=0,same=null,errors=[];
+ for(const f of frames){try{const pilot=f.el.contentWindow.__pilot;if(!pilot){errors.push(f.rig+' loading');continue;}
+  pilot.setRigStyle(f.rig);pilot.setView(v);const [phase,_,time]=snapshots[m];pilot.debug.seek(phase,phase==='DECISION'?null:b,time);
+  const status=pilot.status();if(status.rendererError)errors.push(f.rig+' '+status.rendererError);
+  if(same&&!compare(same,status))errors.push('兩側的角色路徑不同');else same=status;
+  ready++;}catch(e){errors.push(f.rig+' '+e.message);}}
+ $('status').textContent=(ready===2?'兩側已同步｜':'載入中｜')+b+' 分支｜'+v+'｜'+m+'｜'+ready+'/2'+(errors.length?'｜'+errors.join('、'):'');
+}
+function compare(a,b){return a.branch===b.branch&&a.phase===b.phase&&a.progress===b.progress&&JSON.stringify(a.actors)===JSON.stringify(b.actors)&&a.mode===b.mode;}
+for(const f of frames)f.el.addEventListener('load',sync);
+for(const id of ['branch','view','moment'])$(id).addEventListener('change',sync);
+$('apply').addEventListener('click',sync);
+sync();
+</script></body></html>
