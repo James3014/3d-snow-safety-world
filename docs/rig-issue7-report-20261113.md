@@ -1,5 +1,15 @@
 # 3D Snow Safety World | Issue #7 | Three-lesson geometry rig trial
 
+> **Owner visual feedback iteration (2026-11-13, V2):** The first
+> A/B candidate looked too short, bulky and robotic. V2 replaces the dark
+> joint/helmet styling with a taller white/pearl-gray, round-headed,
+> narrow-torso stick silhouette. The original V1 measurements below are
+> retained as historical evidence, not proof of the latest V2 performance.
+> The new 3-lesson V2 browser run and 6 unit tests passed; the separate
+> real-device and head-height/first-person viewpoint teaching check remains
+> NOT_RUN / PARTIAL. Do not merge or publish by default.
+
+
 Evidence date: 2026-11-13 (Asia/Taipei)
 Decision: GO to Owner review of the three-lesson pilot; NO-GO to automatic
 replacement of all ten lessons or production deployment.
@@ -155,3 +165,43 @@ the repository process, not by resetting another active worktree.
 
 No new lesson, change to safety causality, production deployment, automatic
 ten-lesson migration or professional certification is authorized here.
+
+
+## 2026-11-13 follow-up: stickmaxx-inspired character revision (V2)
+
+After Owner indicated the V1 figures looked too bulky, a new geometry-only
+revision was prepared in a separate M4 worktree and visually compared with V1.
+The supplied third-party image is only a visual reference: no third-party
+model, animation, textures, or copied art are included.
+
+Changes: a single featureless white spherical head (no gray helmet shell),
+longer shin/thigh/arm silhouette, narrow torso and hips, smaller rounded limb
+joints with a common pearl-gray/white surface, and unobtrusive identity colors
+on the board and a small chest mark. Snowboard feet and bindings stay at their
+original coordinates. Original timeline, decision consequences, trajectories,
+camera, WebGL2 renderer, playback and old model rollback remain unchanged.
+The two-ski geometry is still an unaccepted unit-test-only variant.
+
+- Side-by-side reference to *our* V1: `rig-issue7-evidence/rig-style-v1-v2-zoom.png`.
+- Latest V2 has 9/9 browser viewport/lesson combinations passing (320, 390,
+  1280 pixels), 73 new Chrome canvas screenshots, 135 authored-pose comparisons,
+  6/6 rig unit tests, 24/24 original site tests, and 3/3 original scene
+  screenshots with unchanged scene pixels (toolbar hover excluded).
+- V2 registered parts: lesson 04 297 (was V1 305), lesson 01 314 (was 320),
+  lesson 09 154 (was 158). 04 still exceeds published legacy 169.
+- V2 CDP experiment (three 2.3-second interleaved 390px rounds) measured
+  median main-thread busy at 14.99% published original, 14.53% V2 pilot
+  legacy view and 16.75% V2 geometric view. Too variable and brief to claim
+  speedup, GPU efficiency or statistically reliable degradation.
+- V2 round-head geometry is vertically taller than the original camera eye
+  anchor, whose old authored height remains unchanged. This intentionally
+  avoids silently altering the blind-crest causal camera but means accurate
+  first-person head-to-eye alignment is still PARTIAL and must be resolved
+  before any teaching-use adoption. Mobile physical hardware NOT_RUN.
+- Important visual limitation: compared with the reference clip, V2 retains
+  additional board equipment and necessary snowboarding bent knees, and white
+  bodies remain smaller/less contrasted in distant views. An exact likeness
+  is not claimed, nor a professional motion/learning-clarity sign-off.
+
+Disposition: proceed to Owner visual review only. No auto-merge, ten-lesson
+replacement or public deployment.

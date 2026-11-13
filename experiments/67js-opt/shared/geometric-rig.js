@@ -19,11 +19,14 @@ function rodMatrix(a,b,radius){
 export function createGeometricRider(id,paletteKey,geometry,discipline='snowboard'){
  if(!['snowboard','ski'].includes(discipline))throw new TypeError('Explicit discipline required');
  const {primitive,material,makePart}=geometry,accent=COLORS[paletteKey]||COLORS.blue;
- const mats={white:material(.96,.97,.99),head:material(1,1,1),rim:material(.39,.49,.55),
-  joint:material(.64,.71,.76),lightJoint:material(.84,.88,.91),
+ const mats={white:material(.82,.86,.90),head:material(1,1,1),rim:material(.39,.49,.55),
+  joint:material(.92,.94,.97),lightJoint:material(.92,.94,.97),
   boot:material(.26,.34,.42),binding:material(.29,.36,.43),
   accent:material(...accent),board:material(...accent)};
  mats.white.emission=.12;
+ // Identical limb/joint surface removes the robotic segmented-armor look.
+ mats.joint=mats.white;
+ mats.lightJoint=mats.white;
  mats.head.emission=.32;
  const defs=[],add=(name,geo,col,position=null,role='body')=>defs.push({name,geo,col,position,role});
  if(discipline==='snowboard'){
@@ -45,13 +48,13 @@ export function createGeometricRider(id,paletteKey,geometry,discipline='snowboar
   }
  }
  for(const [name,geo,col] of [
-  ['pelvis','sphere','joint'],['torso-rim','sphere','rim'],
+  ['pelvis','sphere','white'],
   ['torso','sphere','white'],['role-chest','box','accent'],
-  ['neck','sphere','joint'],['head-rim','sphere','rim'],['head','sphere','head'],
+  ['neck','sphere','white'],['head','sphere','head'],
   ['knee-a','sphere','joint'],['knee-b','sphere','joint'],
   ['thigh-a','sphere','white'],['thigh-b','sphere','white'],
   ['shin-a','sphere','white'],['shin-b','sphere','white'],
-  ['shoulder-a','sphere','accent'],['shoulder-b','sphere','accent'],
+  ['shoulder-a','sphere','white'],['shoulder-b','sphere','white'],
   ['elbow-a','sphere','joint'],['elbow-b','sphere','joint'],
   ['upper-arm-a','sphere','white'],['upper-arm-b','sphere','white'],
   ['lower-arm-a','sphere','white'],['lower-arm-b','sphere','white'],
@@ -84,30 +87,30 @@ export function poseGeometricRider(rider,pose,{mini=false,eye=false,visible=true
   const [x,y,z,sx,sy,sz]=d.position,loc=root([x,y,z]);
   rider.index[d.name].matrix=renderDeck?matrix(...loc,sx,sy,sz,yaw):hidden();
  }
- point('pelvis',[0,1.07,0],[.36,.25,.44]);
- point('torso-rim',[0,1.45,-.06],[.39,.47,.45]);
- point('torso',[.042,1.48,.07],[.40,.46,.49]);
- point('role-chest',[.382,1.50,.02],[.037,.24,.16]);
- point('neck',[0,1.87,.02],[.18,.12,.18]);
- point('head-rim',[0,2.01,.05],[.39,.16,.39]);
- point('head',[0,2.22,.08],[.39,.39,.39]);
+ // Tall graphic silhouette: distinct round head, clean torso, slim limbs.
+ // All board/contact points stay at their original authored position.
+ point('pelvis',[0,1.31,0],[.20,.16,.26]);
+ point('torso',[0,1.97,.015],[.255,.455,.30]);
+ point('role-chest',[.26,2.08,.015],[.025,.065,.12]);
+ point('neck',[0,2.48,.015],[.105,.12,.105]);
+ point('head',[0,2.84,.045],[.325,.325,.325]);
  for(const [key,sign] of [['a',-1],['b',1]]){
   const ski=rider.discipline==='ski';
   const boot=ski?[sign*.29,.46,.04]:[.10,.46,sign*.51];
-  const knee=ski?[sign*.30,.80-flex*.27,.20+flex*.35]:[.20+flex*.35,.80-flex*.30,sign*.47];
-  const thigh=ski?[sign*.19,1.08,.02]:[-.015,1.08,sign*.34];
-  const shoulder=ski?[sign*.40,1.65,0]:[0,1.65,sign*.47];
-  const elbow=ski?[sign*(.53+Math.abs(sway)),1.30,.09]:[.09+sway,1.32,sign*.63];
-  const hand=ski?[sign*(.61+Math.abs(sway)),1.03,.16]:[.13+sway*1.5,1.04,sign*.77];
-  point('hip-'+key,thigh,[.175,.18,.18]);
-  point('knee-'+key,knee,[.214,.216,.211]);
-  bone('thigh-'+key,knee,thigh,.207);
-  bone('shin-'+key,boot,knee,.185);
-  point('shoulder-'+key,shoulder,[.22,.23,.23]);
-  point('elbow-'+key,elbow,[.165,.16,.165]);
-  bone('upper-arm-'+key,shoulder,elbow,.19);
-  bone('lower-arm-'+key,elbow,hand,.16);
-  point('hand-'+key,hand,[.15,.15,.15]);
+  const knee=ski?[sign*.30,1.12-flex*.20,.19+flex*.25]:[.13+flex*.22,1.12-flex*.20,sign*.47];
+  const thigh=ski?[sign*.14,1.39,.02]:[-.015,1.39,sign*.32];
+  const shoulder=ski?[sign*.32,2.29,0]:[0,2.29,sign*.345];
+  const elbow=ski?[sign*(.42+Math.abs(sway)),1.83,.11]:[.07+sway,1.84,sign*.48];
+  const hand=ski?[sign*(.51+Math.abs(sway)),1.51,.13]:[.10+sway*1.3,1.50,sign*.51];
+  point('hip-'+key,thigh,[.09,.095,.095]);
+  point('knee-'+key,knee,[.096,.096,.096]);
+  bone('thigh-'+key,knee,thigh,.14);
+  bone('shin-'+key,boot,knee,.12);
+  point('shoulder-'+key,shoulder,[.135,.135,.135]);
+  point('elbow-'+key,elbow,[.087,.087,.087]);
+  bone('upper-arm-'+key,shoulder,elbow,.12);
+  bone('lower-arm-'+key,elbow,hand,.11);
+  point('hand-'+key,hand,[.092,.092,.092]);
  }
 }
 /** Composite factory: originals and candidates receive identical authored poses. */

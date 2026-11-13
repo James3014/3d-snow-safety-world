@@ -61,3 +61,30 @@ test('all actor identities share one rig implementation and switching does not m
  assert.equal(JSON.stringify(frame),before);
  assert(actors.every(a=>a.geometric.list.some(p=>p.matrix[1]!==-110)));
 });
+
+test('stick-reference: no helmet shell or torso armor; compact torso and slim limb joints',()=>{
+ const choice=createRigChoice({geometry,legacyCreateRider,legacySetRiderPose,discipline:'snowboard'});
+ const a=choice.createRider('orange','orange').geometric;
+ const names=a.list.map(p=>p.name);
+ assert(!names.includes('orange-head-rim'),'head must read as one white sphere, not a helmet');
+ assert(!names.includes('orange-torso-rim'),'torso must not read as padded armor');
+ choice.setRigStyle('geometric');
+ choice.setRiderPose({legacy:legacyCreateRider('orange'),geometric:a},frame);
+ assert(a.index.torso.matrix[3]<=.30,'torso should be narrow');
+ assert(a.index['knee-a'].matrix[3]<=.15,'knee should not look like a ball joint');
+ assert(a.index['shoulder-a'].matrix[3]<=.16,'shoulder accent is a small patch, not a ball');
+ assert(a.index['hand-a'].matrix[3]<=.12,'hands should be simple');
+});
+
+test('stick-reference: longer leg silhouette and smaller head relative to height',()=>{
+ const choice=createRigChoice({geometry,legacyCreateRider,legacySetRiderPose,discipline:'snowboard'});
+ const a=choice.createRider('blue','blue');
+ choice.setRigStyle('geometric');
+ choice.setRiderPose(a,{...frame,y:0,yaw:0,lean:0});
+ const head=a.geometric.index.head.matrix;
+ const foot=a.geometric.index['knee-a'].matrix;
+ assert(head[1]>2.65,'head center must sit above the short, squat original body');
+ assert(head[3]<.38,'head radius should be below old 0.39');
+ assert(foot[1]>.91,'higher knee is required for a visibly elongated shin');
+ assert(head[1]-.45>2.1,'head-to-board vertical proportion should be elongated');
+});

@@ -1,11 +1,12 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path');
 const {chromium}=require('../scene04/node_modules/playwright-core');
+const PILOT_HOST=process.env.RIG_HOST||'http://127.0.0.1:8596';
 const OUT=process.env.RIG_QA_DIR||path.join(process.env.HOME,'workspace/3d-snow-safety-rig-preview-20261113/qa');
 const arms=[
  {name:'published_legacy',url:'http://127.0.0.1:8597/67js-ten/lesson04/'},
- {name:'candidate_legacy',url:'http://127.0.0.1:8596/lesson04/',rig:'legacy'},
- {name:'candidate_geometric',url:'http://127.0.0.1:8596/lesson04/',rig:'geometric'}
+ {name:'candidate_legacy',url:PILOT_HOST+'/lesson04/',rig:'legacy'},
+ {name:'candidate_geometric',url:PILOT_HOST+'/lesson04/',rig:'geometric'}
 ];
 (async()=>{
  const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true,args:['--enable-webgl','--ignore-gpu-blocklist']});
