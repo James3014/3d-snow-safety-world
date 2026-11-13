@@ -10,8 +10,9 @@
  * The pose is an illustrative procedural motion, not a verified biomechanics
  * solver: no independent speed, collisions, falling or knee physics inferred.
  */
-import {buildSmoothHuman,poseDefinitions} from '../rig-lab/smooth-skin.js';
+import {buildSmoothHuman,poseDefinitions,skinField} from '../rig-lab/smooth-skin.js';
 import {createGeometricRider,poseGeometricRider} from './geometric-rig.js';
+import {fitSnowboardToTerrain,snowboardSurfaceMatrix} from './snowboard-ground.js';
 
 const N_JOINTS=7;
 const J={ankles:0,torso:1,frontKnee:2,rearKnee:3,frontArm:4,rearArm:5,head:6};
@@ -112,13 +113,64 @@ function skinnedMesh(){
  return sharedGeometry;
 }
 
+// The colored marks are cut from the exact connected surface rather than
+// floating flat tags. They share the body's GPU joint palette, so they remain
+// flush while knees/torso deform. Shape itself stays smooth and featureless.
+const FACING_PALETTE={blue:[.16,.44,.80],orange:[.95,.42,.19],purple:[.60,.36,.77]};
+let sharedFacingDecals;
+export function buildFacingDecals(mesh){
+ const field=skinField(poseDefinitions('snowboard'));
+ const onSurface=(side,y,z)=>{
+  // Find the original single body's SDF zero crossing. This wraps the tiny
+  // emblem onto the chest/back with no floating rigid tag or giant blob.
+  const middle=.075;
+  let lo=side>0?middle:-.85,hi=side>0?.85:middle;
+  for(let i=0;i<25;i++){
+   const mid=(lo+hi)*.5,v=field([mid,y,z]);
+   if(side>0){if(v>0)hi=mid;else lo=mid;}
+   else {if(v>0)lo=mid;else hi=mid;}
+  }
+  const x=(lo+hi)*.5;
+  const h=.004;
+  const normal=[(field([x+h,y,z])-field([x-h,y,z]))/(2*h),
+   (field([x,y+h,z])-field([x,y-h,z]))/(2*h),
+   (field([x,y,z+h])-field([x,y,z-h]))/(2*h)];
+  const m=Math.hypot(...normal)||1,unit=normal.map(v=>v/m);
+  return {position:[x+unit[0]*.018,y+unit[1]*.018,z+unit[2]*.018],normal:unit};
+ };
+ const ellipse=(side,center,radial)=>{
+  const vertices=[],normals=[],indices=[];
+  const append=(y,z)=>{const {position,normal}=onSurface(side,y,z);vertices.push(...position);normals.push(...normal);};
+  append(...center);
+  const SEGMENTS=28;
+  for(let i=0;i<SEGMENTS;i++){
+   const a=i*Math.PI*2/SEGMENTS;
+   append(center[0]+radial[0]*Math.cos(a),center[1]+radial[1]*Math.sin(a));
+  }
+  for(let i=0;i<SEGMENTS;i++){
+   const next=(i+1)%SEGMENTS+1;
+   if(side>0)indices.push(0,i+1,next);
+   else indices.push(0,next,i+1);
+  }
+  const geometry={positions:new Float32Array(vertices),normals:new Float32Array(normals),indices:new Uint32Array(indices)};
+  return {...geometry,...buildSkinInfluences(geometry)};
+ };
+ return {
+  // A small rounded dot at the front, never a visor or facial feature.
+  front:ellipse(1,[1.93,.035],[.085,.077]),
+  // One narrow vertical capsule-like stripe on the upper back.
+  back:ellipse(-1,[1.91,.035],[.155,.043])
+ };
+}
+function facingDecals(){return sharedFacingDecals||(sharedFacingDecals=buildFacingDecals(skinnedMesh()));}
+
 function fallbackSkinPose(){
  const matrices=new Float32Array(N_JOINTS*16);
  for(let i=0;i<N_JOINTS;i++)matrices.set(IDENTITY,i*16);
  return {jointMatrices:matrices};
 }
 
-export function createSmoothMotionRigChoice({geometry,legacyCreateRider,legacySetRiderPose,discipline='snowboard',createSkinPose}){
+export function createSmoothMotionRigChoice({geometry,legacyCreateRider,legacySetRiderPose,discipline='snowboard',createSkinPose,groundHeight=null}){
  if(discipline!=='snowboard')throw new TypeError('Scene 04 prototype requires snowboard');
  let style='legacy';
  const createRider=(id,palette='blue')=>{
@@ -131,17 +183,37 @@ export function createSmoothMotionRigChoice({geometry,legacyCreateRider,legacySe
   const smooth=geometry.makePart(id+'-smooth-body',skinnedMesh(),material);
   smooth.skin=createSkinPose?createSkinPose(N_JOINTS):fallbackSkinPose();
   smooth.matrix=geometry.matrix(0,-110,0);
-  return {id,legacy,gear,smooth,list:[...legacy.list,...gearParts,smooth]};
+  const decals=facingDecals(),tint=FACING_PALETTE[palette]||FACING_PALETTE.blue;
+  const markers=[['front-badge',decals.front],['back-stripe',decals.back]].map(([name,shape])=>{
+   const m=geometry.makePart(id+'-'+name,shape,geometry.material(...tint));
+   m.skin=smooth.skin;m.matrix=geometry.matrix(0,-110,0);
+   return m;
+  });
+  return {id,legacy,gear,smooth,markers,list:[...legacy.list,...gearParts,smooth,...markers]};
  };
  const setRiderPose=(actor,pose,opts={})=>{
   const showing=opts.visible!==false;
   legacySetRiderPose(actor.legacy,pose,{...opts,visible:showing&&style==='legacy'});
   poseGeometricRider(actor.gear,pose,{...opts,visible:showing&&style==='geometric'});
-  if(!showing||!pose||style!=='geometric'||opts.eye){actor.smooth.matrix=geometry.matrix(0,-110,0);return;}
+  const on=showing&&!!pose&&style==='geometric';
+  const hide=()=>{actor.smooth.matrix=geometry.matrix(0,-110,0);
+    for(const marker of actor.markers)marker.matrix=geometry.matrix(0,-110,0);};
+  if(!on){hide();return;}
   const p=opts.mini?{...pose,x:0,y:0,z:0}:pose;
-  // Only rotate/translate the source root, never recompute its authored path.
-  actor.smooth.matrix=geometry.matrix(p.x,p.y,p.z,1,1,1,p.yaw||0,(p.lean||0)*.48);
+  const frame=groundHeight&&!opts.mini?fitSnowboardToTerrain(p,groundHeight):null;
+  if(frame){
+   for(const d of actor.gear.definitions)if(d.role==='gear'){
+    const [x,y,z,sx,sy,sz]=d.position;
+    actor.gear.index[d.name].matrix=snowboardSurfaceMatrix(frame,[x,y,z],[sx,sy,sz]);
+   }
+  }
+  if(opts.eye){hide();return;}
+  // Existing authored root x/z/yaw is never changed. Only the V3 visual
+  // rider/deck surface receives a bounded vertical/tangent display offset.
+  actor.smooth.matrix=frame?snowboardSurfaceMatrix(frame,[0,0,0],[1,1,1],(p.lean||0)*.48)
+   :geometry.matrix(p.x,p.y,p.z,1,1,1,p.yaw||0,(p.lean||0)*.48);
   actor.smooth.skin.jointMatrices.set(poseJointMatrices(p));
+  for(const marker of actor.markers)marker.matrix=actor.smooth.matrix;
  };
  return {
   createRider,setRiderPose,
